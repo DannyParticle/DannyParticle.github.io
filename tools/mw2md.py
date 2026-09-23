@@ -216,14 +216,20 @@ class Converter:
         self.current_slug = ""
 
     def resolve_image(self, name: str) -> str | None:
-        """把 wikitext 里的图片名解析成磁盘上真实存在的文件名。"""
+        """把 wikitext 里的图片名解析成磁盘上真实存在的文件名。
+
+        给了 --images（即已知磁盘上有哪些图）时，只认磁盘上真实存在的文件，
+        避免为一张其实没抓到的图生成死链；没给时才退回用导出里的名称。
+        """
         if not name:
             return None
-        for cand in (name, name.replace("_", " "), name.replace(" ", "_")):
+        cands = (name, name.replace("_", " "), name.replace(" ", "_"))
+        for cand in cands:
             if cand in self.disk_images:
                 return cand
+        for cand in cands:
             actual = self.image_index.get(os.path.splitext(cand)[0].lower())
-            if actual:
+            if actual and (not self.disk_images or actual in self.disk_images):
                 return actual
         return None
 
