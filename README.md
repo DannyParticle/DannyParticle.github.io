@@ -129,6 +129,28 @@ python tools/check_search_index.py    # 确认线上搜索索引含中文且已�
 
 > 国内直连 GitHub Pages 偶发中断，这几个脚本都带重试，不必因为一次失败就紧张。
 
+### 5. 改样式后肉眼看一眼
+
+排版改动光看代码不靠谱，用无头浏览器截图验收：
+
+```bash
+mkdocs build
+python -m http.server 8123 --bind 127.0.0.1 --directory site   # 另开一个终端
+powershell -ExecutionPolicy Bypass -File tools/screenshot.ps1
+```
+
+截图（桌面版 + 手机版）会输出到 `_shots/`。
+
+### 关于图片路径的一个坑
+
+页面文件是 `docs/wiki/characters/xxx.md`，但 MkDocs 默认 `use_directory_urls`，
+实际 URL 是 `/wiki/characters/xxx/` —— **比文件路径多一层目录**。
+转换器按 URL 深度生成相对路径（`../../../assets/...`），浏览器才认得。
+
+副作用：`mkdocs build` 会为这些图片报 “target not found” 警告，因为 MkDocs 是按
+文件路径校验的。这是**误报**，可以忽略；判断图片是否真的可用，用
+`tools/check_all_pages.py` 或直接看截图。
+
 ## 说明
 
 - 维基文字内容整理自原 Fandom 维基，依 **CC BY-SA 3.0** 许可发布。
