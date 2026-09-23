@@ -52,6 +52,8 @@ mkdocs build                     # 输出到 site/
 
 ### 1. 从 Fandom 抓取（需要能访问 Fandom 的网络）
 
+**方式 A：命令行脚本**（有全局代理 / 本地 HTTP 代理时最省事）
+
 ```bash
 python tools/archive_wiki.py \
     --base https://wangweishilidembti.fandom.com \
@@ -61,6 +63,37 @@ python tools/archive_wiki.py \
 这一步会把**所有页面**（渲染后的 HTML + 原始 wikitext）和**所有图片原图**抓到 `fandom-archive/`，
 支持断点续传，中断后重跑即可。若被 Cloudflare 拦截，用 `--cookie "cf_clearance=..."` 传入浏览器 Cookie；
 若加速器是本地代理，用 `--proxy http://127.0.0.1:7890`。
+
+**方式 B：浏览器控制台脚本**（只有浏览器能访问 Fandom 时用这个）
+
+1. 浏览器打开维基任意页面，确认能正常访问；
+2. F12 → Console，粘贴 `tools/browser-archive.js` 的全部内容并回车；
+3. 等待进度跑完，会下载一个 `fandom-archive.zip`；
+4. 解包并收拢图片：
+
+```bash
+python tools/import_archive.py \
+    --zip fandom-archive.zip \
+    --xml dump/zhwangweishilidembti_pages_current.xml \
+    --docs web/docs/wiki \
+    --into web/docs/assets/wiki-images
+```
+
+**方式 C：浏览器「另存为完整网页」**
+
+逐页 `Ctrl+S` → 保存类型选「网页，全部」，会得到 `xxx.html` + `xxx_files/` 文件夹（图片就在里面）。
+把这些文件放进同一个目录，再让 `import_archive.py` 扫描它：
+
+```bash
+python tools/import_archive.py \
+    --from ~/Downloads/保存的网页 \
+    --xml dump/zhwangweishilidembti_pages_current.xml \
+    --docs web/docs/wiki \
+    --into web/docs/assets/wiki-images
+```
+
+`import_archive.py` 会自动匹配文件名（含浏览器加的 `(1)` 后缀）、核对还缺哪些图，
+并告诉你站点实际引用的图片是否齐全。
 
 > 也可以只用 Fandom 的 `Special:Export` 导出 XML，但那样拿不到图片。
 
