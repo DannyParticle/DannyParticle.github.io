@@ -213,6 +213,7 @@ class Converter:
         self.dropped_templates: dict[str, int] = {}
         self.unknown_links: set[str] = set()
         self.used_images: set[str] = set()
+        self.missing_images: set[str] = set()
         self.current_slug = ""
 
     def resolve_image(self, name: str) -> str | None:
@@ -301,7 +302,9 @@ class Converter:
                 caption = p
         actual = self.resolve_image(name)
         if actual is None:
-            return f"*（图片 {name} 未找到）*" if not caption else f"*{caption}*"
+            self.missing_images.add(name)
+            # 图片确实抓不到时给一句轻量提示，不暴露原始文件名
+            return f"*（图片暂缺）*" if not caption else f"*{caption}*"
         self.used_images.add(actual)
         src = f"{self.img_prefix()}/{actual}"
         return f"![{caption or name}]({src})" + (f"\n\n*{caption}*" if caption else "")
@@ -374,6 +377,7 @@ class Converter:
     def gallery(self, block: str, limit: int = 0) -> str:
         inner = re.sub(r"^<gallery[^>]*>|</gallery>$", "", block.strip(), flags=re.I | re.S)
         figs = []
+        missing_here = 0
         for line in inner.splitlines():
             line = line.strip()
             if not line or line.startswith("#"):
@@ -384,10 +388,8 @@ class Converter:
             caption = bits[1] if len(bits) > 1 else ""
             actual = self.resolve_image(name)
             if actual is None:
-                figs.append(f'<figure><figcaption>{H.escape(caption or name)}'
-                            f'（图片缺失）</figcaption></figure>')
-                if limit and len(figs) >= limit:
-                    break
+                missing_here += 1
+                self.missing_images.add(name)
                 continue
             self.used_images.add(actual)
             src = f"{self.img_prefix()}/{actual}"
@@ -397,6 +399,9 @@ class Converter:
             )
             if limit and len(figs) >= limit:
                 break
+        # 整组图都没有时，不要留一排空图框，给一句提示就好
+        if not figs:
+            return f"*（本图集的 {missing_here} 张图片暂缺）*" if missing_here else ""
         return f'<div class="{GALLERY_CSS_CLASS}">{"".join(figs)}</div>'
 
     # -- 表格 ------------------------------------------------------------ #
@@ -762,6 +767,9 @@ def main() -> int:
 
     print(f"转换完成：{len(written)} 个页面 → {args.docs}")
     print(f"  图片：引用 {len(conv.used_images)}，复制 {copied}，缺失 {missing}")
+    if conv.missing_images:
+        print(f"  未抓到的图片 {len(conv.missing_images)} 张（页面里以「图片暂缺」占位）："
+              f"{sorted(conv.missing_images)}")
     if inferred_count:
         print(f"  标签补全：{inferred_count} 个页面（源文件里没有分类，按标题的人格类型推出）")
     if conv.unknown_links:

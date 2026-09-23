@@ -50,4 +50,4 @@ title: "不器"
 
 ## 图库
 
-<div class="wiki-gallery"><figure><figcaption>QQ20260129-204659.png（图片缺失）</figcaption></figure><figure><figcaption>不器1.jpg（图片缺失）</figcaption></figure><figure><figcaption>Ace81d6cc46c8d7271f5ecf33de1db3f1921315684.png（图片缺失）</figcaption></figure></div>
+*（本图集的 3 张图片暂缺）*
