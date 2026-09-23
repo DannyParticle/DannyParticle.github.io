@@ -115,8 +115,19 @@ python tools/mw2md.py \
 
 ```bash
 python tools/check_residual.py web/docs/wiki   # 检查残留的 wikitext 标记、死链、缺图
+python tools/verify_infer_tags.py dump/xxx.xml # 用源分类反查标签推断是否正确
 cd web && mkdocs build
 ```
+
+### 4. 发布后自检
+
+```bash
+python tools/check_live.py            # 抽查首页、维基、角色页、图片、样式表
+python tools/check_all_pages.py       # 把 sitemap 里每个页面都跑一遍
+python tools/check_search_index.py    # 确认线上搜索索引含中文且已分词
+```
+
+> 国内直连 GitHub Pages 偶发中断，这几个脚本都带重试，不必因为一次失败就紧张。
 
 ## 说明
 
