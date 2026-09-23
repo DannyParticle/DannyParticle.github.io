@@ -87,6 +87,29 @@ DROP_TEMPLATES = {
 
 GALLERY_CSS_CLASS = "wiki-gallery"
 
+# 角色页标题里就写着人格类型，可以据此补全源文件缺失的分类标签
+LETTER_TAGS = {"I": "I人", "E": "E人", "N": "N人", "S": "S人",
+               "T": "T人", "F": "F人", "J": "J人", "P": "P人"}
+
+
+def infer_tags(title: str) -> list[str]:
+    """从「某某（INTJ）」这样的标题推出 I人/N人/T人/J人 + 四色分组标签。
+
+    四色分组的判定：第 2 位是 N → 分析家(NT)/外交家(NF)；
+    第 2 位是 S → 第 4 位是 J 则守护者(SJ)，否则探险家(SP)。
+    """
+    m = re.search(r"[（(]([IE][NS][TF][JP])[）)]", title)
+    if not m:
+        return []
+    t = m.group(1)
+    tags = [LETTER_TAGS[c] for c in t]
+    if t[1] == "N":
+        group = "紫人组" if t[2] == "T" else "绿人组"
+    else:
+        group = "蓝人组" if t[3] == "J" else "黄人组"
+    tags.append(group)
+    return tags
+
 
 # --------------------------------------------------------------------------- #
 # 通用小工具
@@ -525,7 +548,8 @@ class Converter:
             text = text[:s] + self.hold(self.gallery(text[s:e])) + text[e:]
         return text
 
-    def convert(self, text: str, title: str, slug: str) -> str:
+    def convert(self, text: str, title: str, slug: str,
+                extra_tags: list[str] | None = None) -> str:
         self.current_slug = slug
         self.tags = []
         text = text.replace("\r\n", "\n").replace("\r", "\n")
@@ -592,10 +616,11 @@ class Converter:
         body = re.sub(r"\n{3,}", "\n\n", body).strip()
 
         tags = []
-        for t in self.tags:
+        for t in list(self.tags) + list(extra_tags or []):
             t = strip_html(t).strip()
             if t and t not in tags:
                 tags.append(t)
+        self.tags = tags
         front = ["---", f"title: {json.dumps(title, ensure_ascii=False)}"]
         if tags:
             front.append("tags:")
@@ -644,6 +669,8 @@ def main() -> int:
     ap.add_argument("--images-url", default="assets/wiki-images",
                     help="站点内图片相对路径（相对 docs 根）")
     ap.add_argument("--report", default=None)
+    ap.add_argument("--no-infer-tags", action="store_true",
+                    help="不根据标题里的人格类型补全标签")
     args = ap.parse_args()
 
     siteinfo, pages = read_pages(args.xml)
@@ -665,15 +692,23 @@ def main() -> int:
     os.makedirs(args.docs, exist_ok=True)
 
     written = []
+    inferred_count = 0
     for p in content:
         slug = slug_map[p["title"]]
-        md = conv.convert(p["text"], p["title"], slug)
+        extra: list[str] = []
+        if not args.no_infer_tags:
+            source = set(re.findall(r"\[\[\s*Category\s*:\s*([^\]|]+)", p["text"], re.I))
+            source = {s.strip() for s in source}
+            extra = [t for t in infer_tags(p["title"]) if t not in source]
+            if extra:
+                inferred_count += 1
+        md = conv.convert(p["text"], p["title"], slug, extra_tags=extra)
         dest = os.path.join(args.docs, slug + ".md")
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         with open(dest, "w", encoding="utf-8") as fh:
             fh.write(md)
         written.append({"title": p["title"], "slug": slug, "bytes": len(md),
-                        "tags": list(conv.tags)})
+                        "tags": list(conv.tags), "inferred": extra})
 
     # 图片复制
     copied = missing = 0
@@ -690,6 +725,8 @@ def main() -> int:
 
     print(f"转换完成：{len(written)} 个页面 → {args.docs}")
     print(f"  图片：引用 {len(conv.used_images)}，复制 {copied}，缺失 {missing}")
+    if inferred_count:
+        print(f"  标签补全：{inferred_count} 个页面（源文件里没有分类，按标题的人格类型推出）")
     if conv.unknown_links:
         print(f"  未解析的内部链接 {len(conv.unknown_links)} 个：{sorted(conv.unknown_links)[:8]}")
     if conv.dropped_templates:
@@ -702,11 +739,16 @@ def main() -> int:
             fh.write(f"- 源文件：`{os.path.basename(args.xml)}`\n")
             fh.write(f"- 站点名：{siteinfo.get('sitename')}\n")
             fh.write(f"- 正文页：{len(written)}\n")
-            fh.write(f"- 引用图片：{len(conv.used_images)}（复制 {copied}，缺失 {missing}）\n\n")
-            fh.write("## 页面\n\n| 标题 | 输出 | 字节 | 标签 |\n|---|---|---|---|\n")
+            fh.write(f"- 引用图片：{len(conv.used_images)}（复制 {copied}，缺失 {missing}）\n")
+            if inferred_count:
+                fh.write(f"- 标签补全：{inferred_count} 个页面（源文件没有分类，"
+                         f"按标题中的人格类型推出，标 *）\n")
+            fh.write("\n## 页面\n\n| 标题 | 输出 | 字节 | 标签 |\n|---|---|---|---|\n")
             for w in written:
-                fh.write(f"| {w['title']} | `{w['slug']}.md` | {w['bytes']} | "
-                         f"{'、'.join(w['tags'])} |\n")
+                tags = "、".join(
+                    t + ("*" if t in w.get("inferred", []) else "") for t in w["tags"]
+                )
+                fh.write(f"| {w['title']} | `{w['slug']}.md` | {w['bytes']} | {tags} |\n")
             fh.write("\n## 未解析的内部链接\n\n")
             fh.write("\n".join(f"- {t}" for t in sorted(conv.unknown_links)) or "（无）")
             fh.write("\n\n## 丢弃的模板\n\n")
