@@ -10,7 +10,7 @@ tags:
 
 # 郭哲梅（ENTP）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023929.png" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023929.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
 
 <table class="wiki-infobox"><tr><th>简介</th><td>聪明好奇的思想者，不会放弃任何智力上的挑战。</td></tr><tr><th>配音</th><td>男：恶霸；女：啵奇</td></tr><tr><th>原名</th><td>辩论家</td></tr><tr><th>花名</th><td>骨折眉毛、亚口口盒子（亚马逊盒子）、老眉</td></tr></table>
 
@@ -48,4 +48,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023929.png" alt="QQ20250728-023929.png" loading="lazy"><figcaption>QQ20250728-023929.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205519.png" alt="QQ20260130-205519.png" loading="lazy"><figcaption>QQ20260130-205519.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200821.png" alt="QQ20250704-200821.png" loading="lazy"><figcaption>QQ20250704-200821.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023621.png" alt="QQ截图20240228023621.png" loading="lazy"><figcaption>QQ截图20240228023621.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023501.png" alt="QQ截图20240228023501.png" loading="lazy"><figcaption>QQ截图20240228023501.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023342.png" alt="QQ截图20240228023342.png" loading="lazy"><figcaption>QQ截图20240228023342.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023929.webp" alt="QQ20250728-023929.png" loading="lazy"><figcaption>QQ20250728-023929.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205519.webp" alt="QQ20260130-205519.png" loading="lazy"><figcaption>QQ20260130-205519.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200821.webp" alt="QQ20250704-200821.png" loading="lazy"><figcaption>QQ20250704-200821.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023621.webp" alt="QQ截图20240228023621.png" loading="lazy"><figcaption>QQ截图20240228023621.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023501.webp" alt="QQ截图20240228023501.png" loading="lazy"><figcaption>QQ截图20240228023501.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228023342.webp" alt="QQ截图20240228023342.png" loading="lazy"><figcaption>QQ截图20240228023342.png</figcaption></figure></div>

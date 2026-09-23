@@ -195,9 +195,18 @@ def slugify_fallback(title: str) -> str:
 # 转换器
 # --------------------------------------------------------------------------- #
 class Converter:
-    def __init__(self, slug_map: dict[str, str], image_names: set[str], images_url_prefix: str):
+    def __init__(self, slug_map: dict[str, str], image_names: set[str],
+                 images_url_prefix: str, disk_images: set[str] | None = None):
         self.slug_map = slug_map
         self.image_names = image_names
+        self.disk_images = disk_images or set()
+        # wikitext 里写的是 xxx.png，但抓到的可能是 Fandom 的 xxx.webp 缩略图，
+        # 这里按「主文件名」建索引；磁盘上真实存在的文件名优先。
+        self.image_index: dict[str, str] = {}
+        for n in sorted(self.disk_images):
+            self.image_index.setdefault(os.path.splitext(n)[0].lower(), n)
+        for n in sorted(image_names):
+            self.image_index.setdefault(os.path.splitext(n)[0].lower(), n)
         self.images_url_prefix = images_url_prefix
         self.placeholders: list[str] = []
         self.tags: list[str] = []
@@ -205,6 +214,18 @@ class Converter:
         self.unknown_links: set[str] = set()
         self.used_images: set[str] = set()
         self.current_slug = ""
+
+    def resolve_image(self, name: str) -> str | None:
+        """把 wikitext 里的图片名解析成磁盘上真实存在的文件名。"""
+        if not name:
+            return None
+        for cand in (name, name.replace("_", " "), name.replace(" ", "_")):
+            if cand in self.disk_images:
+                return cand
+            actual = self.image_index.get(os.path.splitext(cand)[0].lower())
+            if actual:
+                return actual
+        return None
 
     # -- 占位符 ---------------------------------------------------------- #
     def hold(self, content: str) -> str:
@@ -272,10 +293,11 @@ class Converter:
             p = p.strip()
             if p and not re.fullmatch(r"(thumb|thumbnail|frame|frameless|\d+px|left|right|center|none|baseline|sub|super|top|text-top|middle|bottom|text-bottom)", p, re.I):
                 caption = p
-        if name not in self.image_names:
+        actual = self.resolve_image(name)
+        if actual is None:
             return f"*（图片 {name} 未找到）*" if not caption else f"*{caption}*"
-        self.used_images.add(name)
-        src = f"{self.img_prefix()}/{name}"
+        self.used_images.add(actual)
+        src = f"{self.img_prefix()}/{actual}"
         return f"![{caption or name}]({src})" + (f"\n\n*{caption}*" if caption else "")
 
     # -- 模板 ------------------------------------------------------------ #
@@ -322,10 +344,11 @@ class Converter:
                 else:
                     name = re.sub(r"^(file|image)\s*:\s*", "",
                                   re.sub(r"@.*$", "", val), flags=re.I)
-                    if name in self.image_names:
-                        self.used_images.add(name)
+                    actual = self.resolve_image(name)
+                    if actual:
+                        self.used_images.add(actual)
                         rows.append((label or "图片",
-                                     f"![{name}]({self.img_prefix()}/{name})"))
+                                     f"![{name}]({self.img_prefix()}/{actual})"))
                     else:
                         rows.append((label or "图片", f"*（图片 {name} 未找到）*"))
                 continue
@@ -353,14 +376,15 @@ class Converter:
             name = re.sub(r"@.*$", "", bits[0])
             name = re.sub(r"^(file|image)\s*:\s*", "", name, flags=re.I)
             caption = bits[1] if len(bits) > 1 else ""
-            if name not in self.image_names:
+            actual = self.resolve_image(name)
+            if actual is None:
                 figs.append(f'<figure><figcaption>{H.escape(caption or name)}'
                             f'（图片缺失）</figcaption></figure>')
                 if limit and len(figs) >= limit:
                     break
                 continue
-            self.used_images.add(name)
-            src = f"{self.img_prefix()}/{name}"
+            self.used_images.add(actual)
+            src = f"{self.img_prefix()}/{actual}"
             figs.append(
                 f'<figure><img src="{src}" alt="{H.escape(caption or name)}" loading="lazy">'
                 f'<figcaption>{H.escape(caption or name)}</figcaption></figure>'
@@ -676,10 +700,13 @@ def main() -> int:
     siteinfo, pages = read_pages(args.xml)
     content = [p for p in pages if p["ns"] == "0"]
 
-    # 图片清单：优先用 archive 里真实存在的文件，其次用导出里的 File: 页
-    images: set[str] = set()
+    # 图片清单：磁盘上真实存在的文件名优先，导出里的 File: 页用于补齐名称
+    disk_images: set[str] = set()
     if args.images and os.path.isdir(args.images):
-        images = {os.path.basename(f) for f in glob.glob(os.path.join(args.images, "*"))}
+        disk_images = {os.path.basename(f) for f in glob.glob(os.path.join(args.images, "*"))
+                       if os.path.splitext(f)[1].lower() in
+                       {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".ico", ".bmp"}}
+    images: set[str] = set(disk_images)
     for p in pages:
         if p["ns"] == "6":
             images.add(p["title"].split(":", 1)[1])
@@ -688,7 +715,7 @@ def main() -> int:
     for p in content:
         slug_map[p["title"]] = PAGE_SLUGS.get(p["title"], "misc/" + slugify_fallback(p["title"]))
 
-    conv = Converter(slug_map, images, args.images_url)
+    conv = Converter(slug_map, images, args.images_url, disk_images=disk_images)
     os.makedirs(args.docs, exist_ok=True)
 
     written = []
@@ -717,11 +744,15 @@ def main() -> int:
         os.makedirs(dst_dir, exist_ok=True)
         for name in sorted(conv.used_images):
             src = os.path.join(args.images, name)
-            if os.path.exists(src):
-                shutil.copy2(src, os.path.join(dst_dir, name))
-                copied += 1
-            else:
+            dst = os.path.join(dst_dir, name)
+            if not os.path.exists(src):
                 missing += 1
+                continue
+            # 源目录和目标目录可能就是同一个（图片已经收拢好了），跳过自身拷贝
+            if os.path.exists(dst) and os.path.samefile(src, dst):
+                continue
+            shutil.copy2(src, dst)
+            copied += 1
 
     print(f"转换完成：{len(written)} 个页面 → {args.docs}")
     print(f"  图片：引用 {len(conv.used_images)}，复制 {copied}，缺失 {missing}")

@@ -11,7 +11,7 @@ tags:
 
 # 骨哥说
 
-<table class="wiki-infobox"><tr><th>图片</th><td>![QQ20250908-001730.png](../../assets/wiki-images/QQ20250908-001730.png)</td></tr><tr><th>性别</th><td>男</td></tr><tr><th>籍贯</th><td>广东汕头</td></tr><tr><th>人格类型</th><td>INTJ</td></tr></table>
+<table class="wiki-infobox"><tr><th>图片</th><td>![QQ20250908-001730.png](../../assets/wiki-images/QQ20250908-001730.webp)</td></tr><tr><th>性别</th><td>男</td></tr><tr><th>籍贯</th><td>广东汕头</td></tr><tr><th>人格类型</th><td>INTJ</td></tr></table>
 
 骨哥说，本名黄?旭，男，1987年11月13日生，毕业于广州大学，人格类型INTJ，[王维诗里的MBTI](../channel.md)合作夥伴(伙伴)之一，是位MBTI博主即MBTI®官方认证施测师。初次在《16人格心动瞬间》登场。
 
