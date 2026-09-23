@@ -10,9 +10,7 @@ tags:
 
 # 百里透黑（INFJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-024048.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>安静而神秘，同时鼓舞人心且不知疲倦的理想主义者。</td></tr><tr><th>配音</th><td>男：适燃；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>提倡者</td></tr><tr><th>花名</th><td>魔法老头、绿老头</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-024048.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>安静而神秘，同时鼓舞人心且不知疲倦的理想主义者。</td></tr><tr><th>配音</th><td>男：适燃；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>提倡者</td></tr><tr><th>花名</th><td>魔法老头、绿老头</td></tr></table>
 
 百里透黑（女性为百里透墨，INFJ，名字来源于谐音“白里透黑”）
 
@@ -44,4 +42,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-024048.webp" alt="QQ20250728-024048.png" loading="lazy"><figcaption>QQ20250728-024048.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205322.webp" alt="QQ20260130-205322.png" loading="lazy"><figcaption>QQ20260130-205322.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-201049.webp" alt="QQ20250704-201049.png" loading="lazy"><figcaption>QQ20250704-201049.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228025151.webp" alt="QQ截图20240228025151.png" loading="lazy"><figcaption>QQ截图20240228025151.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228025211.webp" alt="QQ截图20240228025211.png" loading="lazy"><figcaption>QQ截图20240228025211.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228025347.webp" alt="QQ截图20240228025347.png" loading="lazy"><figcaption>QQ截图20240228025347.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228025319.webp" alt="QQ截图20240228025319.png" loading="lazy"><figcaption>QQ截图20240228025319.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-024048.webp" alt="QQ20250728-024048.png" loading="lazy"><figcaption>QQ20250728-024048.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205322.webp" alt="QQ20260130-205322.png" loading="lazy"><figcaption>QQ20260130-205322.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-201049.webp" alt="QQ20250704-201049.png" loading="lazy"><figcaption>QQ20250704-201049.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228025151.webp" alt="QQ截图20240228025151.png" loading="lazy"><figcaption>QQ截图20240228025151.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228025211.webp" alt="QQ截图20240228025211.png" loading="lazy"><figcaption>QQ截图20240228025211.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228025347.webp" alt="QQ截图20240228025347.png" loading="lazy"><figcaption>QQ截图20240228025347.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228025319.webp" alt="QQ截图20240228025319.png" loading="lazy"><figcaption>QQ截图20240228025319.png</figcaption></figure></div>

@@ -10,9 +10,7 @@ tags:
 
 # 吕强人（ENTJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023809.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>大胆，富有想象力且意志强大的领导者，总能找到或创造解决方法。</td></tr><tr><th>配音</th><td>男：适燃；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>指挥官</td></tr><tr><th>花名</th><td>霸总、大姐头、女强人</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023809.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>大胆，富有想象力且意志强大的领导者，总能找到或创造解决方法。</td></tr><tr><th>配音</th><td>男：适燃；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>指挥官</td></tr><tr><th>花名</th><td>霸总、大姐头、女强人</td></tr></table>
 
 吕强人（ENTJ，名字来源于谐音“女强人”，男性为兰强人，谐音“男强人”）
 
@@ -49,4 +47,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023809.webp" alt="QQ20250728-023809.png" loading="lazy"><figcaption>QQ20250728-023809.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205441.webp" alt="QQ20260130-205441.png" loading="lazy"><figcaption>QQ20260130-205441.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200528.webp" alt="QQ20250704-200528.png" loading="lazy"><figcaption>QQ20250704-200528.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228021712.webp" alt="QQ截图20240228021712.png" loading="lazy"><figcaption>QQ截图20240228021712.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228022021.webp" alt="QQ截图20240228022021.png" loading="lazy"><figcaption>QQ截图20240228022021.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228021417.webp" alt="QQ截图20240228021417.png" loading="lazy"><figcaption>QQ截图20240228021417.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023809.webp" alt="QQ20250728-023809.png" loading="lazy"><figcaption>QQ20250728-023809.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205441.webp" alt="QQ20260130-205441.png" loading="lazy"><figcaption>QQ20260130-205441.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200528.webp" alt="QQ20250704-200528.png" loading="lazy"><figcaption>QQ20250704-200528.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228021712.webp" alt="QQ截图20240228021712.png" loading="lazy"><figcaption>QQ截图20240228021712.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228022021.webp" alt="QQ截图20240228022021.png" loading="lazy"><figcaption>QQ截图20240228022021.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228021417.webp" alt="QQ截图20240228021417.png" loading="lazy"><figcaption>QQ截图20240228021417.png</figcaption></figure></div>

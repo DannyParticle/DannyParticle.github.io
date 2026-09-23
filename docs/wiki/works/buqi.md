@@ -4,7 +4,7 @@ title: "不器"
 
 # 不器
 
-![313x313像素](../../assets/wiki-images/QQ20260129-204659.webp)
+![313x313像素](../../../assets/wiki-images/QQ20260129-204659.webp)
 
 *313x313像素*
 **<big>（现在王维决定将不器画到大结局再发出，请各位稍安勿躁（真是一场漫长的等待））</big>**
@@ -52,4 +52,4 @@ title: "不器"
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20260129-204659.webp" alt="QQ20260129-204659.png" loading="lazy"><figcaption>QQ20260129-204659.png</figcaption></figure><figure><img src="../../assets/wiki-images/不器1.webp" alt="不器1.jpg" loading="lazy"><figcaption>不器1.jpg</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20260129-204659.webp" alt="QQ20260129-204659.png" loading="lazy"><figcaption>QQ20260129-204659.png</figcaption></figure><figure><img src="../../../assets/wiki-images/不器1.webp" alt="不器1.jpg" loading="lazy"><figcaption>不器1.jpg</figcaption></figure></div>

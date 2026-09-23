@@ -2,87 +2,136 @@
  * 王维诗里的MBTI 资料站 —— 从 MediaWiki 迁移过来的内容样式
  * ------------------------------------------------------------------ */
 
-/* 信息框（原 Fandom 的信息卡） */
+/* ==================== 信息卡（原 Fandom 信息框） ==================== */
 .wiki-infobox {
   float: right;
-  width: min(20rem, 45%);
-  margin: 0 0 1rem 1.5rem;
+  width: min(21rem, 46%);
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: .2rem 0 1rem 1.5rem;
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: .3rem;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;              /* 固定列宽，标签列不会被长内容挤扁 */
   font-size: .72rem;
+  line-height: 1.6;
   background: var(--md-default-bg-color);
+  overflow: hidden;
+}
+
+/* 显式列宽：跨列的立绘行不会再把列宽带偏 */
+.wiki-infobox .wiki-col-label {
+  width: 6.2rem;
+}
+
+.wiki-infobox .wiki-col-value {
+  width: auto;
 }
 
 .wiki-infobox th,
 .wiki-infobox td {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  padding: .38rem .55rem;
+  border: 0;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  padding: .45rem .6rem;
   vertical-align: top;
+  min-width: 0;
+  /* 长网址、长文件名要能断行，否则会把表格撑爆 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .wiki-infobox th {
-  width: 5.5rem;
-  white-space: nowrap;
   background: var(--md-default-fg-color--lightest);
   font-weight: 600;
   text-align: left;
+  color: var(--md-default-fg-color--light);
 }
 
-.wiki-infobox img {
+.wiki-infobox tr:first-child th,
+.wiki-infobox tr:first-child td {
+  border-top: 0;
+}
+
+/* 立绘那一段跨两列，居中显示 */
+.wiki-infobox-figure {
+  text-align: center;
+  padding: .6rem !important;
+  background: var(--md-default-fg-color--lightest);
+}
+
+.wiki-infobox-figure img {
+  display: block;
+  margin: 0 auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 20rem;
+  height: auto;
+  border-radius: .25rem;
+}
+
+.wiki-infobox a {
+  word-break: break-all;
+}
+
+/* ==================== 图片画廊 ==================== */
+/* 用多列布局做瀑布流：图片高矮不一也能紧凑排布，不留大片空隙 */
+.wiki-gallery {
+  columns: 4 9rem;
+  column-gap: .7rem;
+  margin: 1rem 0;
+}
+
+.wiki-gallery figure {
+  break-inside: avoid;
+  margin: 0 0 .7rem;
+  width: auto;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .3rem;
+  padding: .3rem;
+  background: var(--md-default-bg-color);
+}
+
+/* 关键：不锁死高度，保留原始宽高比，避免上下留出大片灰边 */
+.wiki-gallery img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: .2rem;
 }
 
-/* 图片画廊 */
-.wiki-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .6rem;
-  margin: .6rem 0;
-}
-
-.wiki-gallery figure {
-  margin: 0;
-  flex: 0 0 auto;
-  width: 9rem;
-}
-
-.wiki-gallery img {
-  width: 100%;
-  height: 8rem;
-  object-fit: contain;
-  border-radius: .25rem;
-  background: var(--md-default-fg-color--lightest);
-}
-
 .wiki-gallery figcaption {
-  margin-top: .25rem;
+  margin-top: .35rem;
   font-size: .6rem;
-  line-height: 1.35;
+  line-height: 1.4;
   color: var(--md-default-fg-color--light);
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
-/* 从 wikitext 表格转换而来的 HTML 表格 */
+/* ==================== 从 wikitext 转来的宽表格 ==================== */
 .wiki-table {
   display: block;
   overflow-x: auto;
+  max-width: 100%;
   border-collapse: collapse;
-  font-size: .72rem;
+  font-size: .7rem;
   margin: 1rem 0;
+  scrollbar-width: thin;
 }
 
 .wiki-table th,
 .wiki-table td {
   border: 1px solid var(--md-default-fg-color--lightest);
-  padding: .35rem .6rem;
+  padding: .38rem .6rem;
+  white-space: nowrap;
 }
 
 .wiki-table th {
   background: var(--md-default-fg-color--lightest);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .wiki-table-caption {
@@ -90,23 +139,82 @@
   margin-bottom: .4rem;
 }
 
-/* 表格列多的时候允许横向滚动 */
+/* 超宽表格的滚动提示 */
+.wiki-table-hint {
+  font-size: .62rem;
+  color: var(--md-default-fg-color--light);
+  margin: .6rem 0 -.4rem;
+}
+
+.wiki-table-hint::before {
+  content: "⇄ ";
+}
+
+/* ==================== Material 默认表格：加横向滚动 + 定位辅助 ==================== */
+.md-typeset__table {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 .md-typeset table:not([class]) {
   display: block;
   overflow-x: auto;
   max-width: 100%;
+  scrollbar-width: thin;
 }
 
-/* 窄屏时信息框不再浮动 */
+/* 表头吸顶：横向滚动时也知道自己在看哪一列 */
+.md-typeset table:not([class]) thead th,
+.md-typeset table:not([class]) tr:first-child th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--md-default-bg-color);
+  box-shadow: inset 0 -1px 0 var(--md-default-fg-color--lightest);
+}
+
+/* 首列吸附：横向滚动时也知道自己在看哪一行 */
+.md-typeset table:not([class]) tr > *:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--md-default-bg-color);
+  box-shadow: inset -1px 0 0 var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) tr:first-child > *:first-child {
+  z-index: 3;
+}
+
+/* 单元格不要挤在一起 */
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: .45rem .7rem;
+  white-space: nowrap;
+}
+
+/* 表格窄的时候允许换行，宽的时候靠滚动 */
+@media screen and (max-width: 44.9375em) {
+  .md-typeset table:not([class]) th,
+  .md-typeset table:not([class]) td {
+    white-space: normal;
+  }
+}
+
+/* ==================== 窄屏适配 ==================== */
 @media screen and (max-width: 44.9375em) {
   .wiki-infobox {
     float: none;
     width: 100%;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.2rem 0;
   }
 
-  .wiki-gallery figure {
-    width: calc(50% - .3rem);
+  .wiki-infobox-figure img {
+    max-height: 16rem;
+  }
+
+  .wiki-gallery {
+    columns: 2 8rem;
   }
 }
 

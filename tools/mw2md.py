@@ -215,6 +215,7 @@ class Converter:
         self.used_images: set[str] = set()
         self.missing_images: set[str] = set()
         self.current_slug = ""
+        self.current_title = ""
 
     def resolve_image(self, name: str) -> str | None:
         """把 wikitext 里的图片名解析成磁盘上真实存在的文件名。
@@ -251,9 +252,38 @@ class Converter:
 
     # -- 链接 ------------------------------------------------------------ #
     def img_prefix(self) -> str:
-        """图片相对当前页面的前缀（页面在 wiki/ 下，图片在 docs/assets/ 下）。"""
-        depth = self.current_slug.count("/") + 1
+        """图片相对当前页面的前缀。
+
+        页面文件是 docs/wiki/characters/xxx.md，而 MkDocs 默认 use_directory_urls，
+        实际 URL 是 /wiki/characters/xxx/ —— 比文件路径多一层目录，
+        所以上跳层数 = slug 里的斜杠数 + 2（多出的那层是 use_directory_urls 造成的）。
+        """
+        depth = self.current_slug.count("/") + 2
         return "../" * depth + self.images_url_prefix
+
+    @staticmethod
+    def md_to_html(s: str) -> str:
+        """把 Markdown 的图片/链接转成真正的 HTML 标签。
+
+        信息框是裸 HTML 表格，Python-Markdown 不会处理 HTML 块内部的 Markdown，
+        所以 ![]() 和 []() 必须自己转成 <img> / <a>，否则会原样显示出来。
+        """
+        s = re.sub(
+            r"!\[([^\]]*)\]\(([^)\s]+)\)",
+            lambda m: f'<img src="{m.group(2)}" alt="{H.escape(m.group(1))}" loading="lazy">',
+            s,
+        )
+        s = re.sub(
+            r"\[([^\]]+)\]\(([^)\s]+)\)",
+            lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>',
+            s,
+        )
+        s = re.sub(
+            r"&lt;(https?://[^&\s]+)&gt;",
+            lambda m: f'<a href="{m.group(1)}">{m.group(1)}</a>',
+            s,
+        )
+        return s
 
     def rel_link(self, target: str) -> str | None:
         target = target.strip()
@@ -329,8 +359,14 @@ class Converter:
         return ""
 
     def infobox(self, params: list[str]) -> str:
+        """生成信息卡。
+
+        整体是一张裸 HTML 表格：第一行跨两列放立绘，后面是「标签 / 取值」行。
+        因为 Markdown 不会在 HTML 块内部生效，取值里的图片和链接要转成真标签，
+        否则页面上会直接显示出 ![..](..) 这样的源码。
+        """
         rows: list[tuple[str, str]] = []
-        gallery_md = ""
+        portrait = ""
         for p in params:
             if "=" not in p:
                 continue
@@ -344,35 +380,57 @@ class Converter:
             # 参数值里可能是占位符（画廊等块级内容在 protect() 阶段已被抽走）
             resolved = self.release(val) if "\x00" in val else val
             if "<gallery" in resolved.lower():
-                # 信息框只放第一张立绘，完整图集在正文的「图库」小节
-                gallery_md = self.gallery(resolved, limit=1)
+                # 信息卡只放第一张立绘，完整图集在正文的「图库」小节
+                portrait = portrait or self.gallery_first_img(resolved)
                 continue
             if key in ("image1", "image"):
                 if val.startswith("http"):
-                    rows.append((label or "图片", f"![]({val})"))
+                    portrait = portrait or f'<img src="{val}" alt="{H.escape(label or "图片")}">'
                 else:
                     name = re.sub(r"^(file|image)\s*:\s*", "",
                                   re.sub(r"@.*$", "", val), flags=re.I)
                     actual = self.resolve_image(name)
                     if actual:
                         self.used_images.add(actual)
-                        rows.append((label or "图片",
-                                     f"![{name}]({self.img_prefix()}/{actual})"))
-                    else:
-                        rows.append((label or "图片", f"*（图片 {name} 未找到）*"))
+                        portrait = portrait or (
+                            f'<img src="{self.img_prefix()}/{actual}" '
+                            f'alt="{H.escape(name)}" loading="lazy">'
+                        )
                 continue
-            val = self.inline(self.convert_links(val)) if "[" in val else self.inline(val)
+            # {{!}} 是 MediaWiki 的转义竖线，信息卡里当作换行更耐看
+            val = val.replace("{{!}}", "<br>")
+            val = self.inline(val)
+            val = self.md_to_html(val)
             rows.append((label or key, val.replace("\n", " ")))
 
-        out = []
-        if gallery_md:
-            out.append(gallery_md)
-        if rows:
-            cells = "".join(
-                f"<tr><th>{H.escape(k)}</th><td>{v}</td></tr>" for k, v in rows
-            )
-            out.append(f'<table class="wiki-infobox">{cells}</table>')
-        return "\n\n".join(out)
+        cells = ""
+        if portrait:
+            cells += f'<tr><td class="wiki-infobox-figure" colspan="2">{portrait}</td></tr>'
+        cells += "".join(f"<tr><th>{H.escape(k)}</th><td>{v}</td></tr>" for k, v in rows)
+        if not cells:
+            return ""
+        # 用 colgroup 固定两列宽度：table-layout:fixed 下，跨列的立绘行会干扰
+        # 浏览器对列宽的推断，显式声明列宽才稳。
+        cols = '<colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup>'
+        return f'<table class="wiki-infobox">{cols}{cells}</table>'
+
+    def gallery_first_img(self, block: str) -> str:
+        """取出图集里的第一张图，返回 <img> 标签（找不到就返回空串）。"""
+        inner = re.sub(r"^<gallery[^>]*>|</gallery>$", "", block.strip(), flags=re.I | re.S)
+        for line in inner.splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            bits = [b.strip() for b in line.split("|")]
+            name = re.sub(r"@.*$", "", bits[0])
+            name = re.sub(r"^(file|image)\s*:\s*", "", name, flags=re.I)
+            caption = bits[1] if len(bits) > 1 else name
+            actual = self.resolve_image(name)
+            if actual:
+                self.used_images.add(actual)
+                return (f'<img src="{self.img_prefix()}/{actual}" '
+                        f'alt="{H.escape(caption)}" loading="lazy">')
+        return ""
 
     def gallery(self, block: str, limit: int = 0) -> str:
         inner = re.sub(r"^<gallery[^>]*>|</gallery>$", "", block.strip(), flags=re.I | re.S)
@@ -488,19 +546,29 @@ class Converter:
                 out_lines.append("| " + " | ".join(cells) + " |")
             tbl = "\n".join(out_lines)
 
+        if caption and strip_html(caption).strip() == self.current_title.strip():
+            caption = ""   # 表标题和页面标题重复，去掉更清爽
+
+        # 表格前后必须留空行，否则会被当成上一段文字的一部分，Markdown 就不认这个表了
+        tbl = tbl.strip("\n")
+
+        # 列特别多的表格在窄屏上必然要横向滚动，给一句提示
+        if not merged and width > 10:
+            tbl = f'<div class="wiki-table-hint">表格较宽，可左右滑动查看</div>\n\n{tbl}'
+
         if caption and not merged:
             cap = self.inline(caption).strip()
             if "**" not in cap:
                 cap = f"**{cap}**"
-            tbl = f"\n\n{cap}\n\n{tbl}\n\n"
+            tbl = f"{cap}\n\n{tbl}"
         elif caption:
             cap = self.inline(caption).strip()
-            tbl = (f'\n\n<div class="wiki-table-caption">{cap}</div>\n\n{tbl}\n\n')
+            tbl = f'<div class="wiki-table-caption">{cap}</div>\n\n{tbl}'
         if collapsible:
             title = strip_html(self.inline(caption)).replace("'''", "").replace("**", "").strip() \
                 or "展开查看"
-            tbl = f'\n\n??? note "{title}"\n\n    ' + tbl.strip().replace("\n", "\n    ") + "\n\n"
-        return tbl
+            tbl = f'??? note "{title}"\n\n    ' + tbl.replace("\n", "\n    ")
+        return f"\n\n{tbl}\n\n"
 
     @staticmethod
     def _cell(cell: str) -> tuple[str, str]:
@@ -586,6 +654,7 @@ class Converter:
     def convert(self, text: str, title: str, slug: str,
                 extra_tags: list[str] | None = None) -> str:
         self.current_slug = slug
+        self.current_title = title
         self.tags = []
         text = text.replace("\r\n", "\n").replace("\r", "\n")
 

@@ -10,9 +10,7 @@ tags:
 
 # 苏达简（ENFJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023608.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>富有魅力鼓舞人心的领导者，有使听众着迷的能力。</td></tr><tr><th>配音</th><td>男：恶霸；女：柳知萧</td></tr><tr><th>原名</th><td>主人公</td></tr><tr><th>花名</th><td>大宝剑、大剑、宝剑、苏大剑</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023608.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>富有魅力鼓舞人心的领导者，有使听众着迷的能力。</td></tr><tr><th>配音</th><td>男：恶霸；女：柳知萧</td></tr><tr><th>原名</th><td>主人公</td></tr><tr><th>花名</th><td>大宝剑、大剑、宝剑、苏大剑</td></tr></table>
 
 苏达简（ENFJ，性转名：苏达琪；名字各来源于“苏妲己”和“大剑/大旗”的合体。）
 
@@ -48,4 +46,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023608.webp" alt="QQ20250728-023608.png" loading="lazy"><figcaption>QQ20250728-023608.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205233.webp" alt="QQ20260130-205233.png" loading="lazy"><figcaption>QQ20260130-205233.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228031615.webp" alt="QQ截图20240228031615.png" loading="lazy"><figcaption>QQ截图20240228031615.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228032024.webp" alt="QQ截图20240228032024.png" loading="lazy"><figcaption>QQ截图20240228032024.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228031725.webp" alt="QQ截图20240228031725.png" loading="lazy"><figcaption>QQ截图20240228031725.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200554.webp" alt="QQ20250704-200554.png" loading="lazy"><figcaption>QQ20250704-200554.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023608.webp" alt="QQ20250728-023608.png" loading="lazy"><figcaption>QQ20250728-023608.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205233.webp" alt="QQ20260130-205233.png" loading="lazy"><figcaption>QQ20260130-205233.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228031615.webp" alt="QQ截图20240228031615.png" loading="lazy"><figcaption>QQ截图20240228031615.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228032024.webp" alt="QQ截图20240228032024.png" loading="lazy"><figcaption>QQ截图20240228032024.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228031725.webp" alt="QQ截图20240228031725.png" loading="lazy"><figcaption>QQ截图20240228031725.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200554.webp" alt="QQ20250704-200554.png" loading="lazy"><figcaption>QQ20250704-200554.png</figcaption></figure></div>

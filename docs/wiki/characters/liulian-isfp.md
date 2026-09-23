@@ -10,9 +10,7 @@ tags:
 
 # 柳怜（ISFP）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023902.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>灵活有魅力的艺术家，时刻准备着探索和体验新鲜事物。</td></tr><tr><th>配音</th><td>男：适燃；女：冷静</td></tr><tr><th>原名</th><td>探险家</td></tr><tr><th>花名</th><td>小画家、榴莲头</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023902.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>灵活有魅力的艺术家，时刻准备着探索和体验新鲜事物。</td></tr><tr><th>配音</th><td>男：适燃；女：冷静</td></tr><tr><th>原名</th><td>探险家</td></tr><tr><th>花名</th><td>小画家、榴莲头</td></tr></table>
 
 柳怜（ISFP，名字来源于花名“榴莲头”谐音。性转名：柳烨）
 
@@ -54,4 +52,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023902.webp" alt="QQ20250728-023902.png" loading="lazy"><figcaption>QQ20250728-023902.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-210320.webp" alt="QQ20260130-210320.png" loading="lazy"><figcaption>QQ20260130-210320.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200844.webp" alt="QQ20250704-200844.png" loading="lazy"><figcaption>QQ20250704-200844.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227182529.webp" alt="QQ截图20240227182529.png" loading="lazy"><figcaption>QQ截图20240227182529.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227174421.webp" alt="QQ截图20240227174421.png" loading="lazy"><figcaption>QQ截图20240227174421.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227174345.webp" alt="QQ截图20240227174345.png" loading="lazy"><figcaption>QQ截图20240227174345.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227174607.webp" alt="QQ截图20240227174607.png" loading="lazy"><figcaption>QQ截图20240227174607.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023902.webp" alt="QQ20250728-023902.png" loading="lazy"><figcaption>QQ20250728-023902.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-210320.webp" alt="QQ20260130-210320.png" loading="lazy"><figcaption>QQ20260130-210320.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200844.webp" alt="QQ20250704-200844.png" loading="lazy"><figcaption>QQ20250704-200844.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227182529.webp" alt="QQ截图20240227182529.png" loading="lazy"><figcaption>QQ截图20240227182529.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227174421.webp" alt="QQ截图20240227174421.png" loading="lazy"><figcaption>QQ截图20240227174421.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227174345.webp" alt="QQ截图20240227174345.png" loading="lazy"><figcaption>QQ截图20240227174345.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227174607.webp" alt="QQ截图20240227174607.png" loading="lazy"><figcaption>QQ截图20240227174607.png</figcaption></figure></div>

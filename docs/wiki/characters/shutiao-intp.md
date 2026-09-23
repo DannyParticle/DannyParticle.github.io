@@ -10,9 +10,7 @@ tags:
 
 # 舒迢（INTP）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023708.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>具有创造力的发明家，对知识有着止不住的渴望。</td></tr><tr><th>配音</th><td>男：黑狗；女：冥河</td></tr><tr><th>原名</th><td>逻辑学家</td></tr><tr><th>花名</th><td>Airpod姐、瓶子、薯条、药水</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023708.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>具有创造力的发明家，对知识有着止不住的渴望。</td></tr><tr><th>配音</th><td>男：黑狗；女：冥河</td></tr><tr><th>原名</th><td>逻辑学家</td></tr><tr><th>花名</th><td>Airpod姐、瓶子、薯条、药水</td></tr></table>
 
 舒迢（INTP，名字来源于谐音“薯条”；男性为“柯乐”，谐音“可乐”）
 
@@ -44,4 +42,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023708.webp" alt="QQ20250728-023708.png" loading="lazy"><figcaption>QQ20250728-023708.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205610.webp" alt="QQ20260130-205610.png" loading="lazy"><figcaption>QQ20260130-205610.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228015919.webp" alt="QQ截图20240228015919.png" loading="lazy"><figcaption>QQ截图20240228015919.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228015848.webp" alt="QQ截图20240228015848.png" loading="lazy"><figcaption>QQ截图20240228015848.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228020232.webp" alt="QQ截图20240228020232.png" loading="lazy"><figcaption>QQ截图20240228020232.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228020013.webp" alt="QQ截图20240228020013.png" loading="lazy"><figcaption>QQ截图20240228020013.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200933.webp" alt="QQ20250704-200933.png" loading="lazy"><figcaption>QQ20250704-200933.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023708.webp" alt="QQ20250728-023708.png" loading="lazy"><figcaption>QQ20250728-023708.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205610.webp" alt="QQ20260130-205610.png" loading="lazy"><figcaption>QQ20260130-205610.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228015919.webp" alt="QQ截图20240228015919.png" loading="lazy"><figcaption>QQ截图20240228015919.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228015848.webp" alt="QQ截图20240228015848.png" loading="lazy"><figcaption>QQ截图20240228015848.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228020232.webp" alt="QQ截图20240228020232.png" loading="lazy"><figcaption>QQ截图20240228020232.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228020013.webp" alt="QQ截图20240228020013.png" loading="lazy"><figcaption>QQ截图20240228020013.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200933.webp" alt="QQ20250704-200933.png" loading="lazy"><figcaption>QQ20250704-200933.png</figcaption></figure></div>

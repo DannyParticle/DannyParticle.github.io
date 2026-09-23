@@ -10,9 +10,7 @@ tags:
 
 # 祖安（ISTP）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023236.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>大胆而实际的实验家，擅长使用任何形式的工具。</td></tr><tr><th>配音</th><td>男：适燃；女：冥河；心脏配音与角色配音一致</td></tr><tr><th>原名</th><td>鉴赏家</td></tr><tr><th>花名</th><td>钻头哥</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023236.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>大胆而实际的实验家，擅长使用任何形式的工具。</td></tr><tr><th>配音</th><td>男：适燃；女：冥河；心脏配音与角色配音一致</td></tr><tr><th>原名</th><td>鉴赏家</td></tr><tr><th>花名</th><td>钻头哥</td></tr></table>
 
 祖安【女性为祝安，ISTP，名字都来源于“钻”（zuan）的拼音拆开】
 
@@ -48,4 +46,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ截图20240227163537.webp" alt="QQ截图20240227163537.png" loading="lazy"><figcaption>QQ截图20240227163537.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-210142.webp" alt="QQ20260130-210142.png" loading="lazy"><figcaption>QQ20260130-210142.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227165242.webp" alt="QQ截图20240227165242.png" loading="lazy"><figcaption>QQ截图20240227165242.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200730.webp" alt="QQ20250704-200730.png" loading="lazy"><figcaption>QQ20250704-200730.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227164150.webp" alt="QQ截图20240227164150.png" loading="lazy"><figcaption>QQ截图20240227164150.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227164611.webp" alt="QQ截图20240227164611.png" loading="lazy"><figcaption>QQ截图20240227164611.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250728-023236.webp" alt="QQ20250728-023236.png" loading="lazy"><figcaption>QQ20250728-023236.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ截图20240227163537.webp" alt="QQ截图20240227163537.png" loading="lazy"><figcaption>QQ截图20240227163537.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-210142.webp" alt="QQ20260130-210142.png" loading="lazy"><figcaption>QQ20260130-210142.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227165242.webp" alt="QQ截图20240227165242.png" loading="lazy"><figcaption>QQ截图20240227165242.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200730.webp" alt="QQ20250704-200730.png" loading="lazy"><figcaption>QQ20250704-200730.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227164150.webp" alt="QQ截图20240227164150.png" loading="lazy"><figcaption>QQ截图20240227164150.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227164611.webp" alt="QQ截图20240227164611.png" loading="lazy"><figcaption>QQ截图20240227164611.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250728-023236.webp" alt="QQ20250728-023236.png" loading="lazy"><figcaption>QQ20250728-023236.png</figcaption></figure></div>

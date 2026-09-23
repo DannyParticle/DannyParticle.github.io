@@ -10,9 +10,7 @@ tags:
 
 # 修勾勾（ENFP）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023836.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>热情，有创造力爱社交的自由自在的人，总能找到理由微笑。</td></tr><tr><th>配音</th><td>男：凹林；女：柳知萧</td></tr><tr><th>原名</th><td>竞选者</td></tr><tr><th>花名</th><td>快乐小狗、修狗、小狗狗</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023836.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>热情，有创造力爱社交的自由自在的人，总能找到理由微笑。</td></tr><tr><th>配音</th><td>男：凹林；女：柳知萧</td></tr><tr><th>原名</th><td>竞选者</td></tr><tr><th>花名</th><td>快乐小狗、修狗、小狗狗</td></tr></table>
 
 修勾勾（ENFP，名字来源于“快乐修勾”；男性为“修望望”，谐音“小汪汪”）
 
@@ -52,4 +50,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023836.webp" alt="QQ20250728-023836.png" loading="lazy"><figcaption>QQ20250728-023836.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205301.webp" alt="QQ20260130-205301.png" loading="lazy"><figcaption>QQ20260130-205301.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200440.webp" alt="QQ20250704-200440.png" loading="lazy"><figcaption>QQ20250704-200440.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228033449.webp" alt="QQ截图20240228033449.png" loading="lazy"><figcaption>QQ截图20240228033449.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228033326.webp" alt="QQ截图20240228033326.png" loading="lazy"><figcaption>QQ截图20240228033326.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228033801.webp" alt="QQ截图20240228033801.png" loading="lazy"><figcaption>QQ截图20240228033801.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228033915.webp" alt="QQ截图20240228033915.png" loading="lazy"><figcaption>QQ截图20240228033915.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023836.webp" alt="QQ20250728-023836.png" loading="lazy"><figcaption>QQ20250728-023836.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205301.webp" alt="QQ20260130-205301.png" loading="lazy"><figcaption>QQ20260130-205301.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200440.webp" alt="QQ20250704-200440.png" loading="lazy"><figcaption>QQ20250704-200440.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228033449.webp" alt="QQ截图20240228033449.png" loading="lazy"><figcaption>QQ截图20240228033449.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228033326.webp" alt="QQ截图20240228033326.png" loading="lazy"><figcaption>QQ截图20240228033326.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228033801.webp" alt="QQ截图20240228033801.png" loading="lazy"><figcaption>QQ截图20240228033801.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228033915.webp" alt="QQ截图20240228033915.png" loading="lazy"><figcaption>QQ截图20240228033915.png</figcaption></figure></div>

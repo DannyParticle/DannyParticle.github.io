@@ -10,9 +10,7 @@ tags:
 
 # 池梓（ESTJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023315.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>出色的管理者，在管理事情或人的方面无与伦比。</td></tr><tr><th>配音</th><td>男：黑狗；女：柳知萧</td></tr><tr><th>原名</th><td>总经理</td></tr><tr><th>花名</th><td>鲨鱼、尺子、教导主任</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023315.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>出色的管理者，在管理事情或人的方面无与伦比。</td></tr><tr><th>配音</th><td>男：黑狗；女：柳知萧</td></tr><tr><th>原名</th><td>总经理</td></tr><tr><th>花名</th><td>鲨鱼、尺子、教导主任</td></tr></table>
 
 池梓（ESTJ，名字来源于谐音“尺子”）
 
@@ -44,4 +42,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023315.webp" alt="QQ20250728-023315.png" loading="lazy"><figcaption>QQ20250728-023315.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205636.webp" alt="QQ20260130-205636.png" loading="lazy"><figcaption>QQ20260130-205636.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-201151.webp" alt="QQ20250704-201151.png" loading="lazy"><figcaption>QQ20250704-201151.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228012145.webp" alt="QQ截图20240228012145.png" loading="lazy"><figcaption>QQ截图20240228012145.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228012227.webp" alt="QQ截图20240228012227.png" loading="lazy"><figcaption>QQ截图20240228012227.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228012419.webp" alt="QQ截图20240228012419.png" loading="lazy"><figcaption>QQ截图20240228012419.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228012923.webp" alt="QQ截图20240228012923.png" loading="lazy"><figcaption>QQ截图20240228012923.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023315.webp" alt="QQ20250728-023315.png" loading="lazy"><figcaption>QQ20250728-023315.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205636.webp" alt="QQ20260130-205636.png" loading="lazy"><figcaption>QQ20260130-205636.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-201151.webp" alt="QQ20250704-201151.png" loading="lazy"><figcaption>QQ20250704-201151.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228012145.webp" alt="QQ截图20240228012145.png" loading="lazy"><figcaption>QQ截图20240228012145.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228012227.webp" alt="QQ截图20240228012227.png" loading="lazy"><figcaption>QQ截图20240228012227.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228012419.webp" alt="QQ截图20240228012419.png" loading="lazy"><figcaption>QQ截图20240228012419.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228012923.webp" alt="QQ截图20240228012923.png" loading="lazy"><figcaption>QQ截图20240228012923.png</figcaption></figure></div>

@@ -10,7 +10,7 @@ title: "各mbti的排列组合（两人一组）"
 
 以后看情况出三人一组的
 
-**各mbti的排列组合（两人一组）**
+<div class="wiki-table-hint">表格较宽，可左右滑动查看</div>
 
 |   | INTJ | INTP | ENTJ | ENTP | INFJ | INFP | ENFJ | ENFP | ISTJ | ISFJ | ESTJ | ESFJ | ISTP | ISFP | ESTP | ESFP |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|

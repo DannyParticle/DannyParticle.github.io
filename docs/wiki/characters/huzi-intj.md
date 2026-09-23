@@ -10,9 +10,7 @@ tags:
 
 # 胡紫（INTJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023429.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>富有想象力和战略性的思想家，一切皆在计划之中。</td></tr><tr><th>配音</th><td>男：黑狗；女：冥河</td></tr><tr><th>原名</th><td>建筑师</td></tr><tr><th>花名</th><td>禁欲老头、紫老头、紫薯、胡子</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023429.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>富有想象力和战略性的思想家，一切皆在计划之中。</td></tr><tr><th>配音</th><td>男：黑狗；女：冥河</td></tr><tr><th>原名</th><td>建筑师</td></tr><tr><th>花名</th><td>禁欲老头、紫老头、紫薯、胡子</td></tr></table>
 
 胡紫（INTJ，名称来源于谐音“胡子”）
 
@@ -49,4 +47,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023429.webp" alt="QQ20250728-023429.png" loading="lazy"><figcaption>QQ20250728-023429.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205543.webp" alt="QQ20260130-205543.png" loading="lazy"><figcaption>QQ20260130-205543.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228014418.webp" alt="QQ截图20240228014418.png" loading="lazy"><figcaption>QQ截图20240228014418.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200620.webp" alt="QQ20250704-200620.png" loading="lazy"><figcaption>QQ20250704-200620.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228014540.webp" alt="QQ截图20240228014540.png" loading="lazy"><figcaption>QQ截图20240228014540.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228014509.webp" alt="QQ截图20240228014509.png" loading="lazy"><figcaption>QQ截图20240228014509.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023429.webp" alt="QQ20250728-023429.png" loading="lazy"><figcaption>QQ20250728-023429.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205543.webp" alt="QQ20260130-205543.png" loading="lazy"><figcaption>QQ20260130-205543.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228014418.webp" alt="QQ截图20240228014418.png" loading="lazy"><figcaption>QQ截图20240228014418.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200620.webp" alt="QQ20250704-200620.png" loading="lazy"><figcaption>QQ20250704-200620.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228014540.webp" alt="QQ截图20240228014540.png" loading="lazy"><figcaption>QQ截图20240228014540.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228014509.webp" alt="QQ截图20240228014509.png" loading="lazy"><figcaption>QQ截图20240228014509.png</figcaption></figure></div>

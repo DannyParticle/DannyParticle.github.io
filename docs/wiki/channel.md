@@ -4,7 +4,7 @@ title: "王维诗里的MBTI"
 
 # 王维诗里的MBTI
 
-<table class="wiki-infobox"><tr><th>图片</th><td>![8b05e9d3328e510c4cdff905b82e7801.jpg](../assets/wiki-images/8b05e9d3328e510c4cdff905b82e7801.webp)</td></tr><tr><th>粉丝数</th><td>（截至2026年08月27日）bilibili：82.0万|抖音：35.3万|小红书：42.3万|LOFTER：2.3万|微博：1.4万|YouTube：1.82万（youtube数据因不可抗力因素后续可能暂停更新）</td></tr><tr><th>运营者</th><td>王元元、维基（均为化名）</td></tr><tr><th>所在地</th><td>浙江金华</td></tr><tr><th>宣传语</th><td>这可不是一般的MBTI，这是王维诗里的MBTI</td></tr><tr><th>首个视频</th><td>2022年12月31日</td></tr><tr><th>链接</th><td>[bilibili主页](https://space.bilibili.com/3493079208168355/?spm_id_from=333.999.0.0)；[淘宝店](https://shop323497739.taobao.com/shop/view_shop.htm?spm=a1z0k.7386009.1997989141.3.545e37de5STvim&shop_id=323497739)；[工作室bilibili主页](https://space.bilibili.com/3546747462748680/dynamic?spm_id_from=333.999.rich-text.at.click)</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../assets/wiki-images/8b05e9d3328e510c4cdff905b82e7801.webp" alt="8b05e9d3328e510c4cdff905b82e7801.jpg" loading="lazy"></td></tr><tr><th>粉丝数</th><td>（截至2026年08月27日）bilibili：82.0万<br>抖音：35.3万<br>小红书：42.3万<br>LOFTER：2.3万<br>微博：1.4万<br>YouTube：1.82万（youtube数据因不可抗力因素后续可能暂停更新）</td></tr><tr><th>运营者</th><td>王元元、维基（均为化名）</td></tr><tr><th>所在地</th><td>浙江金华</td></tr><tr><th>宣传语</th><td>这可不是一般的MBTI，这是王维诗里的MBTI</td></tr><tr><th>首个视频</th><td>2022年12月31日</td></tr><tr><th>链接</th><td><a href="https://space.bilibili.com/3493079208168355/?spm_id_from=333.999.0.0">bilibili主页</a>；<a href="https://shop323497739.taobao.com/shop/view_shop.htm?spm=a1z0k.7386009.1997989141.3.545e37de5STvim&shop_id=323497739">淘宝店</a>；<a href="https://space.bilibili.com/3546747462748680/dynamic?spm_id_from=333.999.rich-text.at.click">工作室bilibili主页</a></td></tr></table>
 
 王维诗里的MBTI是bilibili（主要）、抖音、小红书、LOFTER、微博、YouTube等平台的一个以MBTI（Myers–Briggs Type Indicator，迈尔斯-布里格斯性格分类法）为主题，以[16personalities](https://www.16personalities.com/ch)网站上的16型人格形象为主角进行创作的频道，由[王元元](people/wangyuanyuan.md)、[维基](people/viki.md)（均为化名）运营，频道名称化用梗“王维诗里的xxxx”。工作邮箱：wangweishilidembti@qq.com。
 
@@ -200,7 +200,7 @@ bilibili10万粉丝奖牌（2023年3月达成）
 
 - 在“16型人格的情感需求”一集，祖安（ISTP）管柳怜（ISFP）叫“怜哥”，而柳怜的声音是女声，这其实是在影射[16personalities](https://www.16personalities.com/ch)网站上的ISFP的女性默认形象经常被误认为是男性的现象
 
-![郝瑟周围出现的大量公式](../assets/wiki-images/A21828b8ed050768b3dec1cfe2babe7a.webp)
+![郝瑟周围出现的大量公式](../../assets/wiki-images/A21828b8ed050768b3dec1cfe2babe7a.webp)
 
 *郝瑟周围出现的大量公式*
 
@@ -224,7 +224,7 @@ bilibili10万粉丝奖牌（2023年3月达成）
 - INFJ无论男女版本都佩戴单眼镜
 - ESTP无论男女版本都佩戴墨镜（虽然款式不同）
 - 在“16型人格吃醋的表现”一集，ISFJ发噩梦中的怪物展示了16人格其余人格特征：ENTP本人中拥有ESTP的墨镜、ESFJ的雨伞、ESTJ的尺子、INFP的烤蝴蝶串、INTP的药水瓶里ENFP的小花、INTJ的棋盘、ISTJ的眼镜、ENTJ的魔角、ISTP绑着手腕的手丝、ENFJ的宝剑、ESFP的沙槌子、和ISFP的蝴蝶结。
-![猫头鹰版本的王元元和维基](../assets/wiki-images/Screenshot 2025-09-17 120424.webp)
+![猫头鹰版本的王元元和维基](../../assets/wiki-images/Screenshot 2025-09-17 120424.webp)
 
 *猫头鹰版本的王元元和维基*
 

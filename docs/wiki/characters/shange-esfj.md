@@ -10,9 +10,7 @@ tags:
 
 # 单歌（ESFJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023736.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>极其有同情心，爱交往、受欢迎的人们，总是热心提供帮助。（原文有误，已修正）</td></tr><tr><th>配音</th><td>男：凹林；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>执政官</td></tr><tr><th>花名</th><td>男妈妈、伞哥</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023736.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>极其有同情心，爱交往、受欢迎的人们，总是热心提供帮助。（原文有误，已修正）</td></tr><tr><th>配音</th><td>男：凹林；女：云中鹿饮溪</td></tr><tr><th>原名</th><td>执政官</td></tr><tr><th>花名</th><td>男妈妈、伞哥</td></tr></table>
 
 单歌（ESFJ，名字来源于谐音“伞哥”；女性为“单洁”，谐音“伞姐”）
 
@@ -44,4 +42,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023736.webp" alt="QQ20250728-023736.png" loading="lazy"><figcaption>QQ20250728-023736.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205708.webp" alt="QQ20260130-205708.png" loading="lazy"><figcaption>QQ20260130-205708.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200702.webp" alt="QQ20250704-200702.png" loading="lazy"><figcaption>QQ20250704-200702.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227230005.webp" alt="QQ截图20240227230005.png" loading="lazy"><figcaption>QQ截图20240227230005.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227230210.webp" alt="QQ截图20240227230210.png" loading="lazy"><figcaption>QQ截图20240227230210.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227230048.webp" alt="QQ截图20240227230048.png" loading="lazy"><figcaption>QQ截图20240227230048.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240227230328.webp" alt="QQ截图20240227230328.png" loading="lazy"><figcaption>QQ截图20240227230328.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023736.webp" alt="QQ20250728-023736.png" loading="lazy"><figcaption>QQ20250728-023736.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205708.webp" alt="QQ20260130-205708.png" loading="lazy"><figcaption>QQ20260130-205708.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200702.webp" alt="QQ20250704-200702.png" loading="lazy"><figcaption>QQ20250704-200702.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227230005.webp" alt="QQ截图20240227230005.png" loading="lazy"><figcaption>QQ截图20240227230005.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227230210.webp" alt="QQ截图20240227230210.png" loading="lazy"><figcaption>QQ截图20240227230210.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227230048.webp" alt="QQ截图20240227230048.png" loading="lazy"><figcaption>QQ截图20240227230048.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240227230328.webp" alt="QQ截图20240227230328.png" loading="lazy"><figcaption>QQ截图20240227230328.png</figcaption></figure></div>

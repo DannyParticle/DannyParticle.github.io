@@ -10,9 +10,7 @@ tags:
 
 # 郝瑟（ISTJ）
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023541.webp" alt="新版人物立绘" loading="lazy"><figcaption>新版人物立绘</figcaption></figure></div>
-
-<table class="wiki-infobox"><tr><th>简介</th><td>实际且注重事实的个人，可靠性不容怀疑。</td></tr><tr><th>配音</th><td>无/承锦（男，偶尔出场）</td></tr><tr><th>原名</th><td>物流师</td></tr><tr><th>花名</th><td>机器人、蓝老头</td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="../../../assets/wiki-images/QQ20250728-023541.webp" alt="新版人物立绘" loading="lazy"></td></tr><tr><th>简介</th><td>实际且注重事实的个人，可靠性不容怀疑。</td></tr><tr><th>配音</th><td>无/承锦（男，偶尔出场）</td></tr><tr><th>原名</th><td>物流师</td></tr><tr><th>花名</th><td>机器人、蓝老头</td></tr></table>
 
 郝瑟（ISTJ，名字来源于绰号“瑟瑟老头”、谐音“好色”。性转名：郝钰，谐音“好欲”）
 
@@ -53,4 +51,4 @@ tags:
 
 ## 图库
 
-<div class="wiki-gallery"><figure><img src="../../assets/wiki-images/QQ20250728-023541.webp" alt="QQ20250728-023541.png" loading="lazy"><figcaption>QQ20250728-023541.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20250704-200906.webp" alt="QQ20250704-200906.png" loading="lazy"><figcaption>QQ20250704-200906.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ20260130-205938.webp" alt="QQ20260130-205938.png" loading="lazy"><figcaption>QQ20260130-205938.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228003316.webp" alt="QQ截图20240228003316.png" loading="lazy"><figcaption>QQ截图20240228003316.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228003347.webp" alt="QQ截图20240228003347.png" loading="lazy"><figcaption>QQ截图20240228003347.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228003450.webp" alt="QQ截图20240228003450.png" loading="lazy"><figcaption>QQ截图20240228003450.png</figcaption></figure><figure><img src="../../assets/wiki-images/QQ截图20240228003610.webp" alt="QQ截图20240228003610.png" loading="lazy"><figcaption>QQ截图20240228003610.png</figcaption></figure></div>
+<div class="wiki-gallery"><figure><img src="../../../assets/wiki-images/QQ20250728-023541.webp" alt="QQ20250728-023541.png" loading="lazy"><figcaption>QQ20250728-023541.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20250704-200906.webp" alt="QQ20250704-200906.png" loading="lazy"><figcaption>QQ20250704-200906.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ20260130-205938.webp" alt="QQ20260130-205938.png" loading="lazy"><figcaption>QQ20260130-205938.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228003316.webp" alt="QQ截图20240228003316.png" loading="lazy"><figcaption>QQ截图20240228003316.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228003347.webp" alt="QQ截图20240228003347.png" loading="lazy"><figcaption>QQ截图20240228003347.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228003450.webp" alt="QQ截图20240228003450.png" loading="lazy"><figcaption>QQ截图20240228003450.png</figcaption></figure><figure><img src="../../../assets/wiki-images/QQ截图20240228003610.webp" alt="QQ截图20240228003610.png" loading="lazy"><figcaption>QQ截图20240228003610.png</figcaption></figure></div>
