@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: '全部文章',
+    description: '频道动态、随笔与折腾记',
+  }}
+>
+  <p class="blog-filter">
+    分类：{categories.map((c, i) => (
+      <>
+        {i > 0 && ' · '}
+        <a href={`/blog/category/${c}/`}>{c}</a>
+      </>
+    ))}
+  </p>
+
+  <ul class="blog-list">
+    {posts.map((p) => (
+      <li>
+        <a href={`/blog/${p.id}/`}>
+          <span class="blog-list__date">{fmt(p.data.date)}</span>
+          <span class="chip">{p.data.category}</span>
+          <strong>{p.data.title}</strong>
+          {p.data.excerpt && <em>{p.data.excerpt}</em>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</StarlightPage>

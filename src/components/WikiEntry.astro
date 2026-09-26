@@ -1,0 +1,46 @@
+---
+// 首页「重点栏目」：资料站入口 + 16 位角色头像墙
+const faces = [
+  ['INTJ', 'QQ20250728-023429'], ['INTP', 'QQ20250728-023708'],
+  ['ENTJ', 'QQ20250728-023809'], ['ENTP', 'QQ20250728-023929'],
+  ['INFJ', 'QQ20250728-024048'], ['INFP', 'QQ20250728-023148'],
+  ['ENFJ', 'QQ20250728-023608'], ['ENFP', 'QQ20250728-023836'],
+  ['ISTJ', 'QQ20250728-023541'], ['ISFJ', 'QQ20250728-024006'],
+  ['ESTJ', 'QQ20250728-023315'], ['ESFJ', 'QQ20250728-023236'],
+  ['ISTP', 'QQ20250728-023506'], ['ISFP', 'QQ20250728-023642'],
+  ['ESTP', 'QQ20250728-023736'], ['ESFP', 'QQ20250728-023902'],
+];
+const slug: Record<string, string> = {
+  INTJ: 'huzi-intj', INTP: 'shutiao-intp', ENTJ: 'lvqiangren-entj', ENTP: 'guozhemei-entp',
+  INFJ: 'bailitouhei-infj', INFP: 'xiaofudie-infp', ENFJ: 'sudajian-enfj', ENFP: 'xiugougou-enfp',
+  ISTJ: 'haose-istj', ISFJ: 'mama-isfj', ESTJ: 'chizi-estj', ESFJ: 'shange-esfj',
+  ISTP: 'zuan-istp', ISFP: 'liulian-isfp', ESTP: 'mojing-estp', ESFP: 'cuicui-esfp',
+};
+---
+<section class="home-section">
+  <div class="home-section__head">
+    <h2>重点栏目</h2>
+    <a href="/wiki/">查看全部 →</a>
+  </div>
+  <div class="feature">
+    <div class="feature__top">
+      <span class="feature__tag">置顶</span>
+      <h3>资料站 · 王维诗里的MBTI 维基</h3>
+    </div>
+    <div class="feature__body">
+      <p>
+        16 位人格角色的立绘与设定、《不器》番剧与工作室资料、荣格八维理论整理。
+        内容由 Fandom 迁移而来，支持中文全文搜索。
+      </p>
+      <div class="faces">
+        {faces.map(([type, file]) => (
+          <a href={`/wiki/characters/${slug[type]}/`}>
+            <img src={`/wiki-images/${file}.webp`} alt={type} loading="lazy" />
+            <span>{type}</span>
+          </a>
+        ))}
+      </div>
+      <a class="btn" href="/wiki/">进入资料站 →</a>
+    </div>
+  </div>
+</section>

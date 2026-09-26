@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: post.data.title,
+    description: post.data.excerpt ?? post.data.title,
+  }}
+>
+  <p class="post-meta">
+    <span>{fmt(post.data.date)}</span>
+    <span class="chip">{post.data.category}</span>
+  </p>
+  <article class="blog-post">
+    <Content />
+  </article>
+  <p><a href="/blog/">← 返回文章列表</a></p>
+</StarlightPage>

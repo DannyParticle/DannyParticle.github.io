@@ -1,0 +1,32 @@
+---
+// 首页「栏目」区块：这个博客有哪些分类，各自多少篇
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const wikiCount = 29;
+
+const counts: Record<string, number> = {};
+for (const p of posts) {
+  counts[p.data.category] = (counts[p.data.category] ?? 0) + 1;
+}
+
+const columns = [
+  { icon: '📚', name: '资料站', href: '/wiki/', desc: '频道百科：角色档案、作品设定、荣格八维', n: wikiCount },
+  { icon: '📺', name: '频道动态', href: '/blog/category/频道动态/', desc: '更新记录、视频笔记与幕后', n: counts['频道动态'] ?? 0 },
+  { icon: '✍️', name: '随笔', href: '/blog/category/随笔/', desc: '想到哪写到哪', n: counts['随笔'] ?? 0 },
+  { icon: '🛠️', name: '折腾记', href: '/blog/category/折腾记/', desc: '建站、迁移、踩坑记录', n: counts['折腾记'] ?? 0 },
+];
+---
+<section class="home-section">
+  <div class="home-section__head"><h2>栏目</h2></div>
+  <div class="cols">
+    {columns.map((c) => (
+      <a class="col" href={c.href}>
+        {c.n > 0 && <span class="col__n">{c.n}</span>}
+        <div class="col__icon">{c.icon}</div>
+        <h3>{c.name}</h3>
+        <p>{c.desc}</p>
+      </a>
+    ))}
+  </div>
+</section>

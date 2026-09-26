@@ -1,12 +1,27 @@
-# 构建产物
+﻿# 构建产物
+dist/
 site/
 .cache/
+
+# Astro 生成的类型
+.astro/
+
+# 依赖
+node_modules/
+.venv*/
 
 # Python
 __pycache__/
 *.py[cod]
-.venv*/
-venv/
+
+# 日志
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# 环境变量
+.env
+.env.production
 
 # 编辑器 / 系统
 .vscode/

@@ -1,158 +1,130 @@
 # 王维诗里的MBTI · 资料站
 
-bilibili 频道「[王维诗里的MBTI](https://space.bilibili.com/3493079208168355)」的非官方资料维基，
-从 Fandom（`wangweishilidembti.fandom.com`）迁移而来，使用 MkDocs Material 构建并发布在 GitHub Pages。
+bilibili 频道「[王维诗里的MBTI](https://space.bilibili.com/3493079208168355)」的非官方资料站 +
+个人博客。内容从 Fandom（`wangweishilidembti.fandom.com`）迁移而来。
 
 在线地址：<https://dannyparticle.github.io/>
 
-## 站点结构
+- **资料站** `/wiki/*` —— 29 页，由 Astro Starlight 提供侧边栏、目录与全文搜索
+- **博客** `/blog/*` —— Astro 内容集合，按分类归档
+
+## 技术栈
+
+| | |
+|---|---|
+| 框架 | Astro 7 + [Starlight](https://starlight.astro.build) |
+| 搜索 | Pagefind（构建时生成索引） |
+| 字体 | [霞鹜文楷 屏幕阅读版](https://github.com/lxgw/LxgwWenKai)（自托管，不依赖 CDN） |
+| 部署 | GitHub Actions → GitHub Pages |
+
+> 早期版本用 MkDocs Material 构建，已由 Astro 版取代；旧版完整代码在 git 历史里。
+
+## 目录结构
 
 ```
-docs/
-├── index.md                      站点首页
-├── blog/index.md                 博客分区（待填充）
-├── tags.md                       标签索引
-├── stylesheets/extra.css         信息框、画廊、表格样式
-├── assets/wiki-images/           维基图片（由抓取脚本产出）
-└── wiki/
-    ├── index.md                  维基首页（角色卡片导航）
-    ├── about.md                  关于本维基
-    ├── channel.md                频道介绍（成员、角色表、视频列表）
-    ├── pairings.md               各 MBTI 排列组合
-    ├── studio.md                 工作室
-    ├── characters/               16 位角色的档案
-    ├── people/                   运营者与合作博主
-    ├── theory/                   荣格理论和荣格八维
-    └── works/                    《不器》、B站二创
+src/
+├── components/          首页各区块 + 页脚（Astro 组件）
+├── content/
+│   ├── docs/index.mdx   首页
+│   ├── docs/wiki/       资料站 29 篇（Starlight 文档集合）
+│   ├── blog/            博客文章（普通内容集合）
+│   └── i18n/            界面文案覆盖
+├── pages/blog/          博客列表页与文章页
+├── styles/custom.css    全部自定义样式（配色、排版、维基组件）
+└── content.config.ts    两个内容集合的定义
+public/
+├── wiki-images/         126 张维基图片
+└── fonts/               霞鹜文楷（97 个 woff2 分片，按 unicode-range 按需加载）
+tools/                   迁移工具链
+dump/                    原始 Fandom 导出 XML（数据备份）
 ```
 
-## 本地预览
+## 本地开发
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-mkdocs serve                     # 打开 http://127.0.0.1:8000
+npm install          # 国内可加 --registry=https://registry.npmmirror.com
+npm run dev          # http://localhost:4321
+npm run build        # 输出到 dist/
+npm run preview      # 预览构建结果
 ```
 
-构建静态文件：
+## 写博客
 
-```bash
-mkdocs build                     # 输出到 site/
+在 `src/content/blog/` 下新建 `.md`，frontmatter 写好这几项即可：
+
+```yaml
+---
+title: 文章标题
+date: 2026-09-23
+category: 随笔        # 资料站 / 频道动态 / 随笔 / 折腾记
+excerpt: 一句话摘要，显示在列表和首页卡片上
+cover: /wiki-images/xxx.webp   # 可选，卡片封面
+---
 ```
 
-## 部署
+首页「最新文章」和 `/blog/` 列表都是**构建时自动读取**的，不用手动登记。
 
-推送到 `main` 分支后，GitHub Actions（`.github/workflows/deploy.yml`）会自动构建并发布到 GitHub Pages。
-仓库的 **Settings → Pages → Source** 需要选择 **GitHub Actions**。
+## 如何更新资料站内容
 
-## 如何更新维基内容
-
-内容是从 Fandom 导出后自动转换的，不需要手写。完整流程：
+内容是从 Fandom 导出后自动转换的，不需要手写。
 
 ### 1. 从 Fandom 抓取（需要能访问 Fandom 的网络）
 
-**方式 A：命令行脚本**（有全局代理 / 本地 HTTP 代理时最省事）
-
 ```bash
-python tools/archive_wiki.py \
-    --base https://wangweishilidembti.fandom.com \
-    --out fandom-archive
+python tools/archive_wiki.py --base https://wangweishilidembti.fandom.com --out fandom-archive
 ```
 
-这一步会把**所有页面**（渲染后的 HTML + 原始 wikitext）和**所有图片原图**抓到 `fandom-archive/`，
-支持断点续传，中断后重跑即可。若被 Cloudflare 拦截，用 `--cookie "cf_clearance=..."` 传入浏览器 Cookie；
-若加速器是本地代理，用 `--proxy http://127.0.0.1:7890`。
+抓取**所有页面**（渲染 HTML + 原始 wikitext）和**所有图片原图**，支持断点续传。
+被 Cloudflare 拦截时用 `--cookie "cf_clearance=..."`；加速器是本地代理时用 `--proxy http://127.0.0.1:7890`。
 
-**方式 B：浏览器控制台脚本**（只有浏览器能访问 Fandom 时用这个）
+> 也可以用 `tools/browser-archive.js` 在浏览器控制台里一键打包下载（只有浏览器能访问 Fandom 时用这个）。
 
-1. 浏览器打开维基任意页面，确认能正常访问；
-2. F12 → Console，粘贴 `tools/browser-archive.js` 的全部内容并回车；
-3. 等待进度跑完，会下载一个 `fandom-archive.zip`；
-4. 解包并收拢图片：
+### 2. wikitext → Markdown
 
 ```bash
-python tools/import_archive.py \
-    --zip fandom-archive.zip \
-    --xml dump/zhwangweishilidembti_pages_current.xml \
-    --docs web/docs/wiki \
-    --into web/docs/assets/wiki-images
+python tools/mw2md.py --xml dump/xxx.xml --docs build/wiki --images fandom-archive/images
 ```
 
-**方式 C：浏览器「另存为完整网页」**
-
-逐页 `Ctrl+S` → 保存类型选「网页，全部」，会得到 `xxx.html` + `xxx_files/` 文件夹（图片就在里面）。
-把这些文件放进同一个目录，再让 `import_archive.py` 扫描它：
-
-```bash
-python tools/import_archive.py \
-    --from ~/Downloads/保存的网页 \
-    --xml dump/zhwangweishilidembti_pages_current.xml \
-    --docs web/docs/wiki \
-    --into web/docs/assets/wiki-images
-```
-
-`import_archive.py` 会自动匹配文件名（含浏览器加的 `(1)` 后缀）、核对还缺哪些图，
-并告诉你站点实际引用的图片是否齐全。
-
-> 也可以只用 Fandom 的 `Special:Export` 导出 XML，但那样拿不到图片。
-
-### 2. 把 wikitext 转成 Markdown
-
-```bash
-python tools/mw2md.py \
-    --xml dump/zhwangweishilidembti_pages_current.xml \
-    --docs web/docs/wiki \
-    --images fandom-archive/images \
-    --report conversion-report.md
-```
-
-转换器处理的语法：信息框模板 → HTML 信息卡、`{| |}` 表格 → Markdown/HTML 表格、
+处理的语法：信息框模板 → HTML 信息卡、`{| |}` 表格 → Markdown/HTML 表格、
 `[[链接]]` → 相对链接、`[[分类:X]]` → front matter 标签、`<gallery>` → 响应式图集、
 `''斜体''`/`'''粗体'''`、`== 标题 ==`、`<nowiki>`、`<ref>`、`-{zh-hans:..}-` 语言变体等。
 
-### 3. 检查并构建
+### 3. 适配 Astro
 
 ```bash
-python tools/check_residual.py web/docs/wiki   # 检查残留的 wikitext 标记、死链、缺图
-python tools/verify_infer_tags.py dump/xxx.xml # 用源分类反查标签推断是否正确
-cd web && mkdocs build
+python tools/to_astro.py --src build/wiki --docs src/content/docs/wiki \
+                         --public public --images fandom-archive/images
 ```
 
-### 4. 发布后自检
+会把图片路径改成站内绝对路径、把 Material 的折叠块换成 `<details>`、
+并去掉与 Starlight 页面标题重复的正文 H1。
+
+### 4. 检查并构建
 
 ```bash
-python tools/check_live.py            # 抽查首页、维基、角色页、图片、样式表
-python tools/check_all_pages.py       # 把 sitemap 里每个页面都跑一遍
-python tools/check_search_index.py    # 确认线上搜索索引含中文且已分词
+python tools/check_residual.py src/content/docs/wiki   # 残留学法、死链、缺图
+npm run build
 ```
 
-> 国内直连 GitHub Pages 偶发中断，这几个脚本都带重试，不必因为一次失败就紧张。
+## 踩过的坑（都记在这，省得再踩）
 
-### 5. 改样式后肉眼看一眼
+**图片相对路径要多算一层。** 页面文件是 `docs/wiki/characters/xxx.md`，
+但 MkDocs 的 `use_directory_urls` 让实际 URL 变成 `/wiki/characters/xxx/`，比文件路径深一层。
+Astro 版改成站内绝对路径 `/wiki-images/...`，彻底绕开。
 
-排版改动光看代码不靠谱，用无头浏览器截图验收：
+**Markdown 不会在裸 HTML 块里生效。** 信息卡是 HTML 表格，里面必须写真正的
+`<img>` / `<a>` 标签，写 `![](..)` 会原样显示出来。
 
-```bash
-mkdocs build
-python -m http.server 8123 --bind 127.0.0.1 --directory site   # 另开一个终端
-powershell -ExecutionPolicy Bypass -File tools/screenshot.ps1
-```
+**浏览器另存网页的文件名会变形。** 中文变 `%3F`、空格变下划线、PNG 存成 webp 缩略图、
+重名加 `(1)` 后缀 —— 收拢图片时要归一化匹配（见 `tools/import_archive.py`）。
 
-截图（桌面版 + 手机版）会输出到 `_shots/`。
+**无头浏览器截图有最小窗口宽度。** Windows 上 `--window-size=430` 实际按 ~510px 排版再裁切，
+看起来像内容被切掉。测手机版要用 iframe 包一层拿真实窄视口（见 `tools/screenshot.ps1`）。
 
-### 关于图片路径的一个坑
+**霞鹜文楷只有 400 一个字重。** 粗体由浏览器合成，楷体合成粗体容易发糊，
+所以标题靠字号和颜色拉层次，`font-weight` 用 600 而非 700。
 
-页面文件是 `docs/wiki/characters/xxx.md`，但 MkDocs 默认 `use_directory_urls`，
-实际 URL 是 `/wiki/characters/xxx/` —— **比文件路径多一层目录**。
-转换器按 URL 深度生成相对路径（`../../../assets/...`），浏览器才认得。
+## 许可
 
-副作用：`mkdocs build` 会为这些图片报 “target not found” 警告，因为 MkDocs 是按
-文件路径校验的。这是**误报**，可以忽略；判断图片是否真的可用，用
-`tools/check_all_pages.py` 或直接看截图。
-
-## 说明
-
-- 维基文字内容整理自原 Fandom 维基，依 **CC BY-SA 3.0** 许可发布。
-- 角色立绘、频道素材等版权归原作者所有，本站仅作资料整理。
-- 迁移工具链（`tools/`）与站点源码一并放在仓库里，内容可随时重新生成。
+维基文字内容整理自原 Fandom 维基，依 **CC BY-SA 3.0** 发布。
+角色立绘、频道素材版权归原作者所有，本站仅作资料整理。

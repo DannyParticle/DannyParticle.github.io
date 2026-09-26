@@ -1,0 +1,32 @@
+---
+title: 首页
+description: 王维诗里的MBTI 资料站 —— 角色档案、作品设定与荣格八维理论
+template: splash
+---
+
+import HomeHero from '../../components/HomeHero.astro';
+import ColumnCards from '../../components/ColumnCards.astro';
+import WikiEntry from '../../components/WikiEntry.astro';
+import LatestPosts from '../../components/LatestPosts.astro';
+
+<div class="home">
+
+<HomeHero />
+<ColumnCards />
+<WikiEntry />
+<LatestPosts />
+
+<section class="home-section">
+  <div class="home-section__head"><h2>常用标签</h2><a href="/wiki/">资料站标签 →</a></div>
+  <div class="tags">
+    <a href="/wiki/">资料站</a>
+    <a href="/blog/category/频道动态/">频道动态</a>
+    <a href="/blog/category/随笔/">随笔</a>
+    <a href="/blog/category/折腾记/">折腾记</a>
+    <a href="/wiki/theory/jung-eight-functions/">荣格八维</a>
+    <a href="/wiki/works/buqi/">不器</a>
+    <a href="/wiki/characters/haose-istj/">角色档案</a>
+  </div>
+</section>
+
+</div>
