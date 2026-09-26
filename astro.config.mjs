@@ -9,6 +9,8 @@ export default defineConfig({
       title: '蓝天白云的小站',
       description:
         '个人博客 —— 随笔、折腾记，以及一个 MBTI 动画频道的资料站。',
+      logo: { src: './public/avatar.jpg', alt: '蓝天白云的小站' },
+      favicon: '/favicon.png',
       defaultLocale: 'root',
       locales: {
         root: { label: '简体中文', lang: 'zh-CN' },

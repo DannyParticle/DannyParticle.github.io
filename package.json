@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/starlight": "^0.42.4",
     "astro": "^7.2.10",
+    "dompurify": "^3.4.16",
     "lxgw-wenkai-screen-webfont": "^1.7.0",
     "marked": "^18.0.14",
     "sharp": "^0.35.3"
