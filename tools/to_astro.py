@@ -114,11 +114,16 @@ def main() -> int:
     ap.add_argument("--docs", required=True, help="Astro 的 src/content/docs/wiki 目录")
     ap.add_argument("--public", required=True, help="Astro 的 public 目录")
     ap.add_argument("--images", required=True, help="图片源目录")
+    ap.add_argument("--force", action="store_true",
+                    help="覆盖目标目录里内容不同的文件（默认跳过，保护编辑器里改过的内容）")
     args = ap.parse_args()
 
-    if os.path.exists(args.docs):
-        shutil.rmtree(args.docs)
+    # 注意：不能先清空目标目录 —— 站点上线后 /admin/ 编辑器会直接改这里，
+    # 目录里既有「编辑器改过的版本」，也可能有「编辑器新建的页面」。
+    # 下面逐个文件比对，只写内容一致的（即没有被编辑器动过的）。
     os.makedirs(args.docs, exist_ok=True)
+    force = args.force
+    kept: list[str] = []
 
     written = 0
     links = 0
@@ -138,6 +143,11 @@ def main() -> int:
             links += n_links
 
             dest = os.path.join(args.docs, rel)
+            if os.path.exists(dest) and not force:
+                current = open(dest, encoding="utf-8").read()
+                if current != text:
+                    kept.append(rel)
+                    continue
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             with open(dest, "w", encoding="utf-8") as fh:
                 fh.write(text)
@@ -161,6 +171,13 @@ def main() -> int:
     print(f"页面 {written} 个 → {args.docs}")
     print(f"内部链接 {links} 条已改写为站点绝对路径")
     print(f"图片 {copied} 张 → {dst_img}")
+    if kept:
+        print(f"\n⚠ 有 {len(kept)} 个页面内容与源文件不一致，已跳过（多半是编辑器里改过的）：")
+        for rel in kept[:10]:
+            print(f"    {rel}")
+        if len(kept) > 10:
+            print(f"    … 还有 {len(kept) - 10} 个")
+        print("  要强制覆盖请加 --force")
 
     # 自检：不该再剩下 .md 链接
     leftover = []
