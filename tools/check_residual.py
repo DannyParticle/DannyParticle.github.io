@@ -60,17 +60,43 @@ for f in files:
     lines = text.split("\n")
     if not text.startswith("---\n"):
         print(f"  ⚠ {rel}: 缺少 front matter"); issues += 1
+    # Astro/Starlight 用 frontmatter 的 title 渲染大标题，正文里不该再有 H1；
+    # 出现多个 H1 才是问题（标题会重复显示）。
     h1 = [ln for ln in lines if ln.startswith("# ")]
-    if len(h1) != 1:
-        print(f"  ⚠ {rel}: 一级标题有 {len(h1)} 个（应为 1）"); issues += 1
-    # 表格行长度一致性
-    for i, ln in enumerate(lines):
-        if ln.startswith("|") and i + 1 < len(lines) and set(lines[i + 1].replace("|", "").replace("-", "").strip()) == set():
-            pass
-    if re.search(r"^\|.*\|\s*$", text, re.M):
-        pass
+    if len(h1) > 1:
+        print(f"  ⚠ {rel}: 一级标题有 {len(h1)} 个（应 ≤ 1，多出来的会重复显示）"); issues += 1
 if not issues:
     print("  ✓ front matter 与标题结构正常")
+
+# Markdown 表格结构检查
+# 表格一旦被换行撑断（单元格里带 \n），整张表会退化成一段普通文字，
+# 页面上就是一堆竖线 —— 这里把这种表找出来。
+print("\nMarkdown 表格检查：")
+table_bad = 0
+table_ok = 0
+for f in files:
+    rel = os.path.relpath(f, root)
+    lines = open(f, encoding="utf-8").read().split("\n")
+    i = 0
+    while i < len(lines):
+        if not lines[i].startswith("|"):
+            i += 1
+            continue
+        block = []
+        while i < len(lines) and lines[i].strip():
+            block.append(lines[i]); i += 1
+        # 表格块里的每一行都应以 | 开头；出现「表头 + 分隔行」才算合法
+        broken_lines = [b for b in block if not b.startswith("|")]
+        has_sep = len(block) > 1 and re.fullmatch(r"\|[\s\-:|]+\|", block[1] or "")
+        if broken_lines or not has_sep:
+            table_bad += 1
+            head = (block[0][:60] + "…") if block else ""
+            why = "块内有非表格行" if broken_lines else "缺少分隔行 |---|"
+            print(f"  ⚠ {rel}: {why} —— {head}")
+        else:
+            table_ok += 1
+if table_bad == 0:
+    print(f"  ✓ {table_ok} 张表格结构正常")
 
 # 内部链接检查
 print("\n内部链接检查：")
@@ -96,8 +122,27 @@ for f in files:
         if src.startswith("http"):
             continue
         refs[src] = refs.get(src, 0) + 1
-docs_root = os.path.dirname(root.rstrip("/\\"))
-missing = [s for s in refs if not os.path.exists(os.path.join(docs_root, s))]
-print(f"  引用图片 {len(refs)} 个（去重），缺失 {len(missing)} 个")
+
+# 绝对路径（/wiki-images/x.webp）由 Astro 从 public/ 提供，
+# 相对路径则相对 Markdown 文件本身解析。
+public_dir = None
+probe = os.path.abspath(root)
+for _ in range(6):
+    cand = os.path.join(probe, "public")
+    if os.path.isdir(cand):
+        public_dir = cand
+        break
+    probe = os.path.dirname(probe)
+
+missing = []
+for s in refs:
+    if s.startswith("/"):
+        hit = public_dir and os.path.exists(os.path.join(public_dir, s.lstrip("/")))
+    else:
+        hit = os.path.exists(os.path.join(root, s))
+    if not hit:
+        missing.append(s)
+print(f"  引用图片 {len(refs)} 个（去重），缺失 {len(missing)} 个"
+      + (f"（静态资源目录：{os.path.relpath(public_dir, os.path.dirname(root))}）" if public_dir else ""))
 for s in missing[:6]:
     print(f"    - {s}")

@@ -15,7 +15,7 @@ tags:
 
 外号：搞笑女、沙锤、锤锤<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————“我想试试被浪花托起来的感觉！”</small>*<small>（2025年7月25日新增）</small>
 

@@ -5,7 +5,7 @@ tags:
 ---
 ## 欢迎来到王维诗里的MBTI Wiki
 
-[王维诗里的MBTI简介](channel.md)
+[王维诗里的MBTI简介](/wiki/channel/)
 
 ## 最近更改
 

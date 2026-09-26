@@ -15,7 +15,7 @@ tags:
 
 外号：Airpod姐、瓶子、薯条、药水<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————不知我是否也成为了宇宙中的一粒星尘。</small>*<small>（2025年7月25日新增）</small>
 

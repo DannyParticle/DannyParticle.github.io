@@ -15,7 +15,7 @@ tags:
 
 外号：小护士、妈妈<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————原来往事并不如烟。</small>*<small>（2025年7月25日新增）</small>
 

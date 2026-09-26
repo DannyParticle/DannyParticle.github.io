@@ -136,6 +136,15 @@ Astro 版改成站内绝对路径 `/wiki-images/...`，彻底绕开。
 **Markdown 不会在裸 HTML 块里生效。** 信息卡是 HTML 表格，里面必须写真正的
 `<img>` / `<a>` 标签，写 `![](..)` 会原样显示出来。
 
+**Markdown 表格的单元格里不能有换行。** wikitext 表头常写成 `!正式名/性转` 换行
+`（2023年9月15日之后）`，解析出来单元格里带 `\n`；而 Markdown 表格「一行就是一行」——
+表头被拆断后整张表会退化成一堆竖线文字。转换时要把单元格压成单行
+（`mw2md.py` 的 `md_cell`），`tools/check_residual.py` 里有对应的表格结构自检。
+
+**Starlight 不会替你解析相对 `.md` 链接。** `characters/huzi-intj.md` 会原样进 HTML，
+从 `/wiki/channel/` 打开就是 404。必须在转换阶段改写成站点绝对路径
+（`to_astro.py` 的 `rewrite_md_links`），并用 `tools/check_links.py` 兜底全站扫一遍。
+
 **浏览器另存网页的文件名会变形。** 中文变 `%3F`、空格变下划线、PNG 存成 webp 缩略图、
 重名加 `(1)` 后缀 —— 收拢图片时要归一化匹配（见 `tools/import_archive.py`）。
 

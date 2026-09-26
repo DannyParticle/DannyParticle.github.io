@@ -77,6 +77,37 @@ def strip_duplicate_h1(text: str) -> str:
     return text[:m.end()] + body
 
 
+# 指向同仓库其它 .md 的相对链接（排除外链、站内绝对路径、纯锚点）
+MD_LINK = re.compile(r"\]\((?!https?:|/|#|mailto:)([^)#]+?)\.md(#[^)]*)?\)")
+
+
+def rewrite_md_links(text: str, rel_path: str) -> tuple[str, int]:
+    """把相对 .md 链接改写成站点绝对 URL。
+
+    Starlight 的 docsLoader 不会替你解析相对 Markdown 链接 —— 实测
+    `characters/huzi-intj.md` 会原样输出到 HTML 里，从 /wiki/channel/ 打开就是 404。
+    这里按「相对当前文件」解析出目标文件，再换算成它的 URL。
+    """
+    base = os.path.dirname(rel_path)          # 相对 wiki/ 的目录
+    count = 0
+
+    def repl(m: re.Match) -> str:
+        nonlocal count
+        target, anchor = m.group(1).strip(), m.group(2) or ""
+        joined = os.path.normpath(os.path.join(base, target)).replace("\\", "/")
+        if joined == "index":
+            joined = ""
+        elif joined.endswith("/index"):
+            joined = joined[: -len("/index")]
+        url = "/wiki/" + joined
+        if not url.endswith("/"):
+            url += "/"
+        count += 1
+        return f"]({url}{anchor})"
+
+    return MD_LINK.sub(repl, text), count
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--src", required=True, help="MkDocs 的 docs/wiki 目录")
@@ -90,6 +121,7 @@ def main() -> int:
     os.makedirs(args.docs, exist_ok=True)
 
     written = 0
+    links = 0
     for dirpath, _dirs, files in os.walk(args.src):
         for fn in files:
             if not fn.endswith(".md"):
@@ -102,6 +134,8 @@ def main() -> int:
             text = re.sub(r"(?:\.\./)+assets/wiki-images/", "/wiki-images/", text)
             text = convert_collapsible(text)
             text = strip_duplicate_h1(text)
+            text, n_links = rewrite_md_links(text, rel)
+            links += n_links
 
             dest = os.path.join(args.docs, rel)
             os.makedirs(os.path.dirname(dest), exist_ok=True)
@@ -115,12 +149,32 @@ def main() -> int:
     copied = 0
     for fn in os.listdir(args.images):
         s = os.path.join(args.images, fn)
-        if os.path.isfile(s):
-            shutil.copy2(s, os.path.join(dst_img, fn))
-            copied += 1
+        d = os.path.join(dst_img, fn)
+        if not os.path.isfile(s):
+            continue
+        # 源目录和目标目录常常是同一个，跳过自身拷贝
+        if os.path.exists(d) and os.path.samefile(s, d):
+            continue
+        shutil.copy2(s, d)
+        copied += 1
 
     print(f"页面 {written} 个 → {args.docs}")
+    print(f"内部链接 {links} 条已改写为站点绝对路径")
     print(f"图片 {copied} 张 → {dst_img}")
+
+    # 自检：不该再剩下 .md 链接
+    leftover = []
+    for dirpath, _dirs, files in os.walk(args.docs):
+        for fn in files:
+            if fn.endswith(".md"):
+                p = os.path.join(dirpath, fn)
+                t = open(p, encoding="utf-8").read()
+                if re.search(r"\]\((?!https?:|/|#)[^)]*\.md", t):
+                    leftover.append(os.path.relpath(p, args.docs))
+    if leftover:
+        print(f"  ⚠ 仍有 .md 链接未改写：{leftover[:5]}")
+    else:
+        print("  ✓ 没有残留的相对 .md 链接")
     return 0
 
 

@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  // 固定分类 + 文章里实际出现过的分类，两边合并
+  // （否则「随笔」这种还没文章的栏目就没有落地页，全站会留死链）
+  const canonical = ['资料站', '频道动态', '随笔', '折腾记'];
+  const cats = [...new Set([...canonical, ...posts.map((p) => p.data.category)])];
+  return cats.map((cat) => ({ params: { cat }, props: { cat, posts } }));
+}
+
+const { cat, posts: all } = Astro.props;
+const posts = all
+  .filter((p) => p.data.category === cat)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: `分类：${cat}`,
+    description: `「${cat}」分类下的全部文章`,
+  }}
+>
+  <p class="blog-filter">共 {posts.length} 篇 · <a href="/blog/">← 全部文章</a></p>
+
+  <ul class="blog-list">
+    {posts.map((p) => (
+      <li>
+        <a href={`/blog/${p.id}/`}>
+          <span class="blog-list__date">{fmt(p.data.date)}</span>
+          <strong>{p.data.title}</strong>
+          {p.data.excerpt && <em>{p.data.excerpt}</em>}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  {posts.length === 0 && (
+    <p class="note">这个分类下还没有文章。</p>
+  )}
+</StarlightPage>

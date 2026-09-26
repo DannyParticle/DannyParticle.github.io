@@ -15,7 +15,7 @@ tags:
 
 外号：男妈妈、伞哥<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————“我会牵着线，希望风筝敢往太阳飞去。”</small>*<small>（2025年7月25日新增）</small>
 

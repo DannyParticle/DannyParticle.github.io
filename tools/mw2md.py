@@ -535,13 +535,27 @@ class Converter:
             tbl = f'<table class="wiki-table">{"".join(body)}</table>'
         else:
             width = max(len(r) for r in rows)
+
+            def md_cell(text: str) -> str:
+                """单元格内容压成单行。
+
+                wikitext 里表头常常写成
+                    !正式名/性转
+                    （2023年9月15日之后）
+                解析出来单元格里带换行；Markdown 表格一行就是一行，
+                换行会把表头拆断、整张表退化成一段普通文字。
+                """
+                text = re.sub(r"\s*\n\s*", " ", text).strip()
+                return text.replace("|", "\\|") or " "
+
             out_lines = []
             header = rows[0]
-            out_lines.append("| " + " | ".join(t.replace("|", "\\|") or " " for _, t in header) +
-                             " |" + (" x" * (width - len(header)) if width > len(header) else ""))
+            cells = [md_cell(t) for _, t in header]
+            cells += [" "] * (width - len(cells))
+            out_lines.append("| " + " | ".join(cells) + " |")
             out_lines.append("|" + "---|" * width)
             for r in rows[1:]:
-                cells = [t.replace("|", "\\|").replace("\n", " ") or " " for _, t in r]
+                cells = [md_cell(t) for _, t in r]
                 cells += [" "] * (width - len(cells))
                 out_lines.append("| " + " | ".join(cells) + " |")
             tbl = "\n".join(out_lines)

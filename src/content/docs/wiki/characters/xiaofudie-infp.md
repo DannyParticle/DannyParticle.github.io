@@ -15,7 +15,7 @@ tags:
 
 外号：小蝴蝶、恁碟、流泪猫猫头<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————最孤独的岛屿，也会被潮汐反复拥抱。</small>*<small>（2025年7月25日新增）</small>
 

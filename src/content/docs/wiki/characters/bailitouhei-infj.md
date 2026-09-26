@@ -15,7 +15,7 @@ tags:
 
 外号：绿老头、魔法老头<small>（2025年7月25日新增）</small>
 
-[王维诗里的MBTI](../channel.md)频道的主要角色之一。
+[王维诗里的MBTI](/wiki/channel/)频道的主要角色之一。
 
 *<small>————“世间万千声响，你不听，那就只是声音。”</small>*<small>（2025年7月25日新增）</small>
 
