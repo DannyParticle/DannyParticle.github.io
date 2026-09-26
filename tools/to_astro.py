@@ -11,6 +11,8 @@ to_astro.py — 把已经转好的 Markdown 适配成 Astro + Starlight 的结�
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 import re
 import shutil
@@ -120,10 +122,23 @@ def main() -> int:
 
     # 注意：不能先清空目标目录 —— 站点上线后 /admin/ 编辑器会直接改这里，
     # 目录里既有「编辑器改过的版本」，也可能有「编辑器新建的页面」。
-    # 下面逐个文件比对，只写内容一致的（即没有被编辑器动过的）。
+    #
+    # 判断「有没有被编辑器改过」用清单里的哈希，而不是「内容是否和这次生成的一样」：
+    # 后者会把「脚本升级导致输出变化」误判成「用户改过」，新功能就永远写不进去。
     os.makedirs(args.docs, exist_ok=True)
     force = args.force
+    manifest_path = os.path.join(args.docs, ".generated.json")
+    previous: dict[str, str] = {}
+    if os.path.exists(manifest_path):
+        try:
+            previous = json.load(open(manifest_path, encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            previous = {}
+    manifest: dict[str, str] = {}
     kept: list[str] = []
+
+    def digest(s: str) -> str:
+        return hashlib.sha1(s.encode("utf-8")).hexdigest()
 
     written = 0
     links = 0
@@ -145,13 +160,27 @@ def main() -> int:
             dest = os.path.join(args.docs, rel)
             if os.path.exists(dest) and not force:
                 current = open(dest, encoding="utf-8").read()
-                if current != text:
+                known = previous.get(rel)
+                if known is None:
+                    edited = current != text        # 还没有清单，只能保守判断
+                else:
+                    edited = digest(current) != known   # 生成之后被改过
+                if edited:
                     kept.append(rel)
+                    # 清单里只记「脚本上次写出去的内容」。
+                    # 绝不能记当前磁盘内容 —— 那等于承认这次编辑是脚本写的，
+                    # 下一轮就会把它当干净的覆盖掉。
+                    if rel in previous:
+                        manifest[rel] = previous[rel]
                     continue
             os.makedirs(os.path.dirname(dest), exist_ok=True)
             with open(dest, "w", encoding="utf-8") as fh:
                 fh.write(text)
+            manifest[rel] = digest(text)
             written += 1
+
+    with open(manifest_path, "w", encoding="utf-8") as fh:
+        json.dump(manifest, fh, ensure_ascii=False, indent=1, sort_keys=True)
 
     # 图片
     dst_img = os.path.join(args.public, "wiki-images")

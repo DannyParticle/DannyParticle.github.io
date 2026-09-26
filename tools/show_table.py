@@ -23,6 +23,19 @@ idx = html.find(needle)
 if idx < 0:
     raise SystemExit(f"页面里找不到 {needle!r}")
 
+# 直接用页面自己的样式表（Astro 会把 custom.css 打包成 /_astro/xxx.css），
+# 否则排版跟线上不一致，截出来的图没有参考价值。
+links = re.findall(r'<link[^>]+href="[^"]*\.css"[^>]*>', html)
+links = list(dict.fromkeys(links))
+print(f"引用样式表 {len(links)} 个")
+
+# 连 <html>/<body> 的属性一起照搬 —— Starlight 的主题变量挂在 data-theme 上，
+# 少了它整页配色都会不对（表头会变成黑底白字）
+html_attrs = (re.search(r"<html([^>]*)>", html) or [None, ""])[1]
+body_attrs = (re.search(r"<body([^>]*)>", html) or [None, ""])[1]
+html_attrs = re.sub(r'\s*class="[^"]*"', "", html_attrs)
+print(f"<html{html_attrs}>")
+
 # 往前找最近的 <table，往后找配对的 </table>
 start = html.rfind("<table", 0, idx)
 depth, i = 0, start
@@ -38,18 +51,15 @@ for m in re.finditer(r"</?table\b", html[start:]):
 table = html[start:end]
 print(f"抠出表格：{len(table)} 字节")
 
-doc = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
-<link rel="stylesheet" href="/fonts/wenkai.css">
-<link rel="stylesheet" href="/stylesheets/extra.css">
+doc = f"""<!doctype html><html{html_attrs}><head><meta charset="utf-8">
+{chr(10).join(links)}
 <style>
- body{{margin:0;padding:24px;font-family:"LXGW WenKai Screen","Microsoft YaHei",system-ui,sans-serif;
-   font-size:15px;line-height:1.75;background:#fff}}
- table{{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}}
- th,td{{border:1px solid #dcdfe8;padding:6px 10px;white-space:nowrap}}
- th{{background:#f3f3f7;position:sticky;top:0}}
- a{{color:#6d5bd0}}
-</style></head><body>
+ body{{margin:0;padding:24px}}
+ .sl-markdown-content{{padding:0}}
+</style></head><body{body_attrs}>
+<div class="sl-markdown-content">
 {table}
+</div>
 </body></html>"""
 
 tmp = os.path.join(dist, "_table.html")

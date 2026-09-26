@@ -22,8 +22,10 @@ import urllib.request
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-DIST = os.path.abspath("wiki-migration/web/dist")
-OUT = os.path.abspath("wiki-migration/_shots/editor-selftest.png")
+# 路径相对脚本位置解析，免得受当前工作目录影响
+_HERE = os.path.dirname(os.path.abspath(__file__))
+DIST = os.path.abspath(os.path.join(_HERE, "..", "dist"))
+OUT = os.path.abspath(os.path.join(_HERE, "..", "..", "_shots", "editor-selftest.png"))
 PORT = 8129
 
 HARNESS = r"""<!doctype html>

@@ -469,6 +469,7 @@ class Converter:
         collapsible = "mw-collapsible" in lines[0]
         rows: list[list[tuple[str, str]]] = []  # (attrs, text)
         cur: list[tuple[str, str]] | None = None
+        cur_header = False
         header_rows: set[int] = set()
 
         i = 1
@@ -482,7 +483,10 @@ class Converter:
             if stripped.startswith("|-"):
                 if cur is not None:
                     rows.append(cur)
+                    if cur_header:
+                        header_rows.add(len(rows) - 1)
                 cur = []
+                cur_header = False
                 i += 1
                 continue
             if stripped.startswith("|}") or stripped == "":
@@ -491,7 +495,9 @@ class Converter:
             if stripped.startswith("!") and not stripped.startswith("!-"):
                 if cur is None:
                     cur = []
-                    header_rows.add(len(rows))
+                # 注意：要按「当前这一行」记，不能只在 cur 为 None 时记 ——
+                # 行首有 |- 时 cur 已经建好了，那样会漏判，表头就变成 <td>
+                cur_header = True
                 for cell in split_top_level(stripped[1:], "!!"):
                     cur.append(self._cell(cell))
                 i += 1
@@ -510,6 +516,8 @@ class Converter:
             i += 1
         if cur:
             rows.append(cur)
+            if cur_header:
+                header_rows.add(len(rows) - 1)
         rows = [r for r in rows if r]
         # 单元格里的 [[链接]] '''粗体''' 等也要转换
         rows = [[(a, self.inline(t)) for a, t in r] for r in rows]
@@ -519,18 +527,36 @@ class Converter:
 
         merged = any(re.search(r"colspan|rowspan", a, re.I) for r in rows for a, _ in r)
         if merged:
+            # 按表头文字给每列定性，好让样式知道哪列该窄、哪列该换行。
+            # 否则所有列都按最长内容撑开，备注那种长文本列会把整张表吃光。
+            col_class = self._column_classes(rows, header_rows)
+
+            def html_cell(s: str) -> str:
+                """HTML 表格的单元格不走 Markdown 解析，
+                **加粗** 会原样显示成星号，这里手动转成 <strong>。"""
+                s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+                return re.sub(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)", r"<em>\1</em>", s)
+
             body = []
             for ri, r in enumerate(rows):
                 tds = []
+                ci = 0
                 for attrs, text in r:
                     tag = "th" if ri in header_rows else "td"
                     keep = re.findall(r'(colspan|rowspan)="\d+"', attrs, re.I) or []
                     attr_s = ""
+                    span = 1
                     for k in keep:
                         m = re.search(rf'{k}="(\d+)"', attrs, re.I)
                         if m:
                             attr_s += f' {k.lower()}="{m.group(1)}"'
-                    tds.append(f"<{tag}{attr_s}>{text}</{tag}>")
+                            if k.lower() == "colspan":
+                                span = int(m.group(1))
+                    cls = col_class.get(ci) if span == 1 else None
+                    if cls:
+                        attr_s += f' class="{cls}"'
+                    tds.append(f"<{tag}{attr_s}>{html_cell(text)}</{tag}>")
+                    ci += span
                 body.append("<tr>" + "".join(tds) + "</tr>")
             tbl = f'<table class="wiki-table">{"".join(body)}</table>'
         else:
@@ -583,6 +609,34 @@ class Converter:
                 or "展开查看"
             tbl = f'??? note "{title}"\n\n    ' + tbl.replace("\n", "\n    ")
         return f"\n\n{tbl}\n\n"
+
+    @staticmethod
+    def _column_classes(rows: list, header_rows: set) -> dict[int, str]:
+        """按表头文字判断每列的用途，返回 {列号: class}。
+
+        - 日期/时间 → 窄、不换行
+        - 系列/分类 → 窄、不换行
+        - 标题/名称 → 允许换行，给个下限
+        - 备注/说明 → 允许换行，且限制最大宽度（内容多就往下长，别往右撑）
+        """
+        if not header_rows:
+            return {}
+        head_idx = min(header_rows)
+        head = rows[head_idx] if head_idx < len(rows) else []
+        rules = [
+            (r"日期|时间|发布", "wiki-col-date"),
+            (r"系列|分类|类型|所属|分组", "wiki-col-cat"),
+            (r"标题|名称|名字|曲名|角色名|条目", "wiki-col-title"),
+            (r"备注|说明|注释|备注说明|详情", "wiki-col-note"),
+        ]
+        out: dict[int, str] = {}
+        for i, (_attrs, text) in enumerate(head):
+            plain = strip_html(text).strip()
+            for pat, cls in rules:
+                if re.search(pat, plain):
+                    out[i] = cls
+                    break
+        return out
 
     @staticmethod
     def _cell(cell: str) -> tuple[str, str]:

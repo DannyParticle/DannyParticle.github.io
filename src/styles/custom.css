@@ -668,6 +668,43 @@ body {
   border-radius: var(--site-radius-sm);
 }
 
+/* wikitext 表格：收缩到内容宽度，但各列保留自己的最小宽度 */
+.wiki-table {
+  width: fit-content;
+}
+
+.wiki-table th,
+.wiki-table td {
+  /* 默认允许换行。早先所有列都按最长内容撑开，
+     「备注」这种长文本列会把整张表吃光，其它列被挤成竖排文字 */
+  white-space: normal;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  padding: .4rem .65rem;
+}
+
+.wiki-table th {
+  white-space: nowrap;
+}
+
+/* 短列（发布时间、所属系列）：窄，不折行 */
+.wiki-table .wiki-col-date,
+.wiki-table .wiki-col-cat {
+  white-space: nowrap;
+  width: 1%;                 /* auto 布局下：尽量贴近内容宽度 */
+}
+
+/* 标题列：让它吃掉剩余宽度 */
+.wiki-table .wiki-col-title {
+  width: auto;
+}
+
+/* 备注列：给个适中的宽度，内容长了就换行往下排（宽度小、长度不限）。
+   注意表格单元格上 min-width 不生效，只能用 width 当提示。 */
+.wiki-table .wiki-col-note {
+  width: 11rem;
+}
+
 .sl-markdown-content table {
   box-shadow: var(--site-shadow);
 }
