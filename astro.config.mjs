@@ -6,19 +6,28 @@ export default defineConfig({
   site: 'https://dannyparticle.github.io',
   integrations: [
     starlight({
-      title: '王维诗里的MBTI',
+      title: '蓝天白云的小站',
       description:
-        'bilibili 频道「王维诗里的MBTI」的资料站：角色档案、作品设定与荣格八维理论。',
+        '个人博客 —— 随笔、折腾记，以及一个 MBTI 动画频道的资料站。',
       defaultLocale: 'root',
       locales: {
         root: { label: '简体中文', lang: 'zh-CN' },
       },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/DannyParticle' },
+        {
+          icon: 'external',
+          label: 'Bilibili',
+          href: 'https://space.bilibili.com/1922582514',
+        },
       ],
       customCss: ['./src/styles/custom.css'],
       components: {
         Footer: './src/components/Footer.astro',
+      },
+      // 资料站每页底部给一个「在 GitHub 上编辑」的入口（编辑器挂了还能兜底）
+      editLink: {
+        baseUrl: 'https://github.com/DannyParticle/DannyParticle.github.io/edit/main/',
       },
       // 自托管的霞鹜文楷（屏幕阅读版）—— 不挂 CDN，大陆访问才稳
       head: [
@@ -27,12 +36,20 @@ export default defineConfig({
           attrs: { rel: 'stylesheet', href: '/fonts/wenkai.css' },
         },
       ],
-      // 资料站的每一页都带侧边栏；博客是自定义页面，不受这里影响
+      // 侧边栏分两块：博客 + 资料站。
+      // 资料站设成 collapsed，在博客/首页时收起，点进资料站会自动展开
+      //（Starlight 会展开包含当前页面的分组），两边互不干扰。
       sidebar: [
-        { label: '博客首页', link: '/' },
-        { label: '全部文章', link: '/blog/' },
+        {
+          label: '博客',
+          items: [
+            { label: '首页', link: '/' },
+            { label: '全部文章', link: '/blog/' },
+          ],
+        },
         {
           label: '资料站',
+          collapsed: true,
           items: [
             { label: '维基首页', slug: 'wiki' },
             { label: '关于本维基', slug: 'wiki/about' },

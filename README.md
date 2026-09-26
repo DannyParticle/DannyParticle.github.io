@@ -64,6 +64,27 @@ cover: /wiki-images/xxx.webp   # 可选，卡片封面
 
 首页「最新文章」和 `/blog/` 列表都是**构建时自动读取**的，不用手动登记。
 
+## 在线编辑资料站
+
+<https://dannyparticle.github.io/admin/>
+
+一个自己用的编辑器，**只动 `src/content/docs/wiki/` 下的 Markdown**，不需要任何后端：
+
+1. 打开页面，粘贴一个 GitHub Token（classic token，勾 `repo` 权限即可）
+2. 左侧选页面 → 中间编辑 → 右侧实时预览
+3. 点「保存」→ 通过 GitHub API 提交到仓库 → Actions 自动重建，约 1 分钟生效
+
+功能：新建页面（自动套 frontmatter 模板）、删除、**插入图片**（上传到 `/wiki-images/`
+并把标签插到光标处）、`Ctrl+S` 保存、`Tab` 缩进、未保存时关页面会拦一下。
+
+Token 只存在浏览器 `localStorage`（键名 `dsh_wiki_token`），不会上传到任何地方；
+点「忘记」即可清除。页面本身没有 token 就什么都做不了，也已在 `robots.txt` 和
+`noindex` 里排除索引。
+
+> 编辑器的接口契约可以用 `python tools/test_editor_api.py` 验证
+> （列目录 → 新建 → 读回 → 改 → 删除，跑完自动清理）。
+> 底部还保留了 Starlight 的「在 GitHub 上编辑」链接，编辑器万一出问题可以兜底。
+
 ## 如何更新资料站内容
 
 内容是从 Fandom 导出后自动转换的，不需要手写。

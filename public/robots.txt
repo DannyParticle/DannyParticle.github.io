@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 编辑器是给自己用的，不需要被索引
+Disallow: /admin/

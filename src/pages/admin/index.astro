@@ -1,0 +1,442 @@
+---
+// 资料站编辑器 —— 只动 src/content/docs/wiki/ 下的 Markdown
+// 纯前端 + GitHub API，不需要任何后端服务
+layout: false
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>资料站编辑器</title>
+  <link rel="stylesheet" href="/fonts/wenkai.css">
+  <style>
+    :root {
+      --bg: #f6f7fb; --panel: #fff; --line: #e3e3e8; --ink: #1a1a1a;
+      --muted: #6b6b76; --accent: #6d5bd0; --accent-soft: #ece8f9;
+      --ok: #2f8a4a; --warn: #b45309; --err: #c0392b;
+      --mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink); font-size: 14px;
+      font-family: "LXGW WenKai Screen", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      display: flex; flex-direction: column;
+    }
+    a { color: var(--accent); }
+
+    /* ---------- 顶栏 ---------- */
+    .top {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line);
+    }
+    .top h1 { font-size: 16px; margin: 0; font-weight: 700; }
+    .top .back { font-size: 12px; color: var(--muted); text-decoration: none; }
+    .top .spacer { flex: 1; }
+    .top input[type=password], .top input[type=text] {
+      font: inherit; font-size: 12px; padding: 5px 9px; width: 260px;
+      border: 1px solid var(--line); border-radius: 6px; background: #fff;
+    }
+    button {
+      font: inherit; font-size: 12px; padding: 5px 12px; cursor: pointer;
+      border: 1px solid var(--line); border-radius: 6px; background: #fff;
+      transition: .15s;
+    }
+    button:hover { border-color: var(--accent); color: var(--accent); }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    button.primary:hover { filter: brightness(1.08); color: #fff; }
+    button.danger:hover { border-color: var(--err); color: var(--err); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .status { font-size: 12px; color: var(--muted); }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--err); }
+
+    /* ---------- 主体 ---------- */
+    .layout { flex: 1; display: grid; grid-template-columns: 260px 1fr; min-height: 0; }
+    .files {
+      background: var(--panel); border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; min-height: 0;
+    }
+    .files__bar { padding: 8px; border-bottom: 1px solid var(--line); display: flex; gap: 6px; }
+    .files__bar input {
+      flex: 1; min-width: 0; font: inherit; font-size: 12px; padding: 5px 8px;
+      border: 1px solid var(--line); border-radius: 6px;
+    }
+    .file-list { list-style: none; margin: 0; padding: 6px; overflow: auto; flex: 1; }
+    .file-list li {
+      padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 12.5px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .file-list li:hover { background: var(--accent-soft); }
+    .file-list li.on { background: var(--accent); color: #fff; }
+    .file-list li .ns { color: var(--muted); font-size: 11px; }
+    .file-list li.on .ns { color: #ffffffb0; }
+
+    .editor { display: flex; flex-direction: column; min-height: 0; }
+    .editor__bar {
+      display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+      background: var(--panel); border-bottom: 1px solid var(--line);
+    }
+    .editor__path {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .panes { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 0; }
+    .panes.single { grid-template-columns: 1fr; }
+    .panes.single .preview { display: none; }
+    textarea {
+      border: 0; outline: 0; resize: none; padding: 14px 16px; width: 100%; height: 100%;
+      font-family: var(--mono); font-size: 13px; line-height: 1.75; background: var(--panel);
+      color: var(--ink); tab-size: 2;
+    }
+    .preview {
+      border-left: 1px solid var(--line); overflow: auto; padding: 14px 20px;
+      background: #fff; line-height: 1.8;
+    }
+    .preview :is(h1, h2, h3) { margin-top: 1.2em; }
+    .preview h2 { border-bottom: 1px solid var(--line); padding-bottom: .3em; }
+    .preview table { border-collapse: collapse; display: block; overflow-x: auto; max-width: 100%; }
+    .preview th, .preview td { border: 1px solid var(--line); padding: 4px 9px; }
+    .preview th { background: #f3f3f7; }
+    .preview img { max-width: 100%; height: auto; }
+    .preview code { background: #f2f2f6; padding: 1px 5px; border-radius: 4px; font-family: var(--mono); font-size: 12px; }
+    .preview pre { background: #f7f7fa; padding: 10px; border-radius: 6px; overflow: auto; }
+    .preview pre code { background: none; padding: 0; }
+    .preview blockquote { border-left: 3px solid var(--line); margin-left: 0; padding-left: 12px; color: var(--muted); }
+    .hint {
+      padding: 7px 12px; font-size: 12px; color: var(--muted);
+      background: var(--panel); border-top: 1px solid var(--line);
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    }
+    .empty { color: var(--muted); padding: 40px 20px; text-align: center; }
+    .dirty { color: var(--warn); }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      .files { max-height: 34vh; border-right: 0; border-bottom: 1px solid var(--line); }
+      .panes { grid-template-columns: 1fr; }
+      .preview { display: none; }
+    }
+  </style>
+</head>
+<body data-pagefind-ignore>
+
+<div class="top">
+  <h1>资料站编辑器</h1>
+  <a class="back" href="/">← 回站点</a>
+  <span class="spacer"></span>
+  <input type="password" id="token" placeholder="GitHub Token（ghp_… 只需 repo 权限）" autocomplete="off">
+  <button id="connect">连接</button>
+  <button id="forget" title="清除本机保存的 token">忘记</button>
+  <span class="status" id="status">未连接</span>
+</div>
+
+<div class="layout">
+  <aside class="files">
+    <div class="files__bar">
+      <input type="text" id="filter" placeholder="筛选页面…">
+      <button id="new">新建</button>
+    </div>
+    <ul class="file-list" id="list"></ul>
+  </aside>
+
+  <main class="editor">
+    <div class="editor__bar">
+      <span class="editor__path" id="path">未选择页面</span>
+      <button id="toggle">只看编辑</button>
+      <button id="upload">插入图片</button>
+      <button id="revert" disabled>还原</button>
+      <button class="danger" id="remove" disabled>删除</button>
+      <button class="primary" id="save" disabled>保存</button>
+      <input type="file" id="file" accept="image/*" hidden>
+    </div>
+    <div class="panes" id="panes">
+      <textarea id="md" spellcheck="false" placeholder="从左侧选择一个页面开始编辑…"></textarea>
+      <div class="preview" id="preview"><div class="empty">实时预览区</div></div>
+    </div>
+    <div class="hint">
+      <span id="dirty"></span>
+      <span>保存后 GitHub Actions 自动重建，约 1 分钟生效</span>
+      <span id="result"></span>
+    </div>
+  </main>
+</div>
+
+<script>
+  import { marked } from 'marked';
+
+  const OWNER = 'DannyParticle';
+  const REPO = 'DannyParticle.github.io';
+  const BRANCH = 'main';
+  const WIKI_DIR = 'src/content/docs/wiki/';
+  const IMG_DIR = 'public/wiki-images/';
+  const TOKEN_KEY = 'dsh_wiki_token';
+
+  const $ = (id) => document.getElementById(id);
+  const statusEl = $('status'), listEl = $('list'), mdEl = $('md'), previewEl = $('preview');
+  const pathEl = $('path'), dirtyEl = $('dirty'), resultEl = $('result');
+
+  let token = localStorage.getItem(TOKEN_KEY) || '';
+  let files = [];
+  let current = null;      // { path, sha }
+  let original = '';       // 打开时的内容，用于「还原」和脏检查
+
+  // ---------- 工具 ----------
+  const setStatus = (text, cls = '') => { statusEl.textContent = text; statusEl.className = 'status ' + cls; };
+  const setResult = (html) => { resultEl.innerHTML = html; };
+
+  function b64encode(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    const CH = 0x8000;                       // 分块，避免超长参数把调用栈爆掉
+    for (let i = 0; i < bytes.length; i += CH) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+    }
+    return btoa(bin);
+  }
+  function b64decode(b64) {
+    const bin = atob(b64.replace(/\s/g, ''));
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  async function api(path, options = {}) {
+    const res = await fetch('https://api.github.com' + path, {
+      ...options,
+      headers: {
+        Authorization: 'Bearer ' + token,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+        ...(options.headers || {}),
+      },
+    });
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
+    if (!res.ok) throw new Error(`${res.status} ${data.message || res.statusText}`);
+    return data;
+  }
+
+  const render = () => { previewEl.innerHTML = marked.parse(mdEl.value || '*（空）*'); };
+  const markDirty = () => {
+    const dirty = mdEl.value !== original;
+    dirtyEl.textContent = dirty ? '● 有未保存的修改' : '';
+    dirtyEl.className = dirty ? 'dirty' : '';
+    $('revert').disabled = !dirty;
+  };
+
+  // ---------- 连接 ----------
+  async function connect(silent = false) {
+    if (!token) { setStatus('未连接', ''); return; }
+    try {
+      setStatus('连接中…');
+      const me = await api('/user');
+      setStatus(`已连接：${me.login}`, 'ok');
+      localStorage.setItem(TOKEN_KEY, token);
+      await loadList();
+    } catch (e) {
+      setStatus('连接失败：' + e.message, 'err');
+      if (!silent) alert('连接失败：' + e.message + '\n\n请确认 token 有效，且有 repo 权限。');
+    }
+  }
+
+  // ---------- 页面列表 ----------
+  async function loadList() {
+    setStatus('读取文件列表…');
+    const tree = await api(`/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`);
+    files = tree.tree
+      .filter((n) => n.type === 'blob' && n.path.startsWith(WIKI_DIR) && n.path.endsWith('.md'))
+      .map((n) => n.path)
+      .sort();
+    setStatus(`已连接　共 ${files.length} 个页面`, 'ok');
+    drawList();
+  }
+
+  function drawList() {
+    const q = $('filter').value.trim().toLowerCase();
+    listEl.innerHTML = '';
+    files
+      .filter((p) => !q || p.toLowerCase().includes(q))
+      .forEach((p) => {
+        const rel = p.slice(WIKI_DIR.length);
+        const li = document.createElement('li');
+        const dir = rel.includes('/') ? rel.split('/').slice(0, -1).join('/') + ' / ' : '';
+        li.innerHTML = `<span class="ns">${dir}</span>${rel.split('/').pop()}`;
+        li.title = rel;
+        if (current && current.path === p) li.classList.add('on');
+        li.onclick = () => openFile(p);
+        listEl.appendChild(li);
+      });
+  }
+
+  // ---------- 打开 / 保存 ----------
+  async function openFile(path) {
+    if (mdEl.value !== original && !confirm('当前页面有未保存的修改，确定要切换吗？')) return;
+    setStatus('读取 ' + path + ' …');
+    try {
+      const data = await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(path)}?ref=${BRANCH}`);
+      current = { path, sha: data.sha };
+      original = b64decode(data.content);
+      mdEl.value = original;
+      pathEl.textContent = path.slice(WIKI_DIR.length);
+      $('save').disabled = false;
+      $('remove').disabled = false;
+      setResult('');
+      render(); markDirty(); drawList();
+      setStatus(`已打开　${files.length} 个页面`, 'ok');
+    } catch (e) {
+      setStatus('打不开：' + e.message, 'err');
+    }
+  }
+
+  async function save() {
+    if (!current) return;
+    $('save').disabled = true;
+    setStatus('提交中…');
+    try {
+      const body = {
+        message: `编辑资料站：${current.path.slice(WIKI_DIR.length)}`,
+        content: b64encode(mdEl.value),
+        branch: BRANCH,
+      };
+      if (current.sha) body.sha = current.sha;
+      const res = await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(current.path)}`, {
+        method: 'PUT', body: JSON.stringify(body),
+      });
+      current.sha = res.content.sha;
+      original = mdEl.value;
+      markDirty();
+      setStatus('已提交', 'ok');
+      setResult(`✓ 已提交 · <a href="${res.commit.html_url}" target="_blank" rel="noopener">查看 commit</a> · <a href="https://github.com/${OWNER}/${REPO}/actions" target="_blank" rel="noopener">构建进度</a>`);
+    } catch (e) {
+      setStatus('提交失败：' + e.message, 'err');
+    } finally {
+      $('save').disabled = false;
+    }
+  }
+
+  async function createFile() {
+    const input = prompt(
+      '新页面路径（相对资料站根目录）\n例如：characters/xin-juese 或 theory/new-topic',
+      'misc/新页面'
+    );
+    if (!input) return;
+    const path = WIKI_DIR + input.replace(/^\/+/, '').replace(/\.md$/, '') + '.md';
+    if (files.includes(path)) { alert('这个路径已存在'); return; }
+    const title = prompt('页面标题', input.split('/').pop());
+    if (!title) return;
+    const tpl = `---\ntitle: "${title}"\n---\n\n在这里写内容。\n`;
+    setStatus('创建中…');
+    try {
+      await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(path)}`, {
+        method: 'PUT',
+        body: JSON.stringify({ message: `新建资料站页面：${title}`, content: b64encode(tpl), branch: BRANCH }),
+      });
+      await loadList();
+      await openFile(path);
+      setStatus('已创建', 'ok');
+    } catch (e) {
+      setStatus('创建失败：' + e.message, 'err');
+    }
+  }
+
+  async function removeFile() {
+    if (!current) return;
+    const rel = current.path.slice(WIKI_DIR.length);
+    if (!confirm(`确定删除「${rel}」？\n删除后仍可从 git 历史找回。`)) return;
+    setStatus('删除中…');
+    try {
+      await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(current.path)}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ message: `删除资料站页面：${rel}`, sha: current.sha, branch: BRANCH }),
+      });
+      current = null; original = ''; mdEl.value = ''; pathEl.textContent = '未选择页面';
+      $('save').disabled = true; $('remove').disabled = true;
+      await loadList();
+      setStatus('已删除', 'ok');
+    } catch (e) {
+      setStatus('删除失败：' + e.message, 'err');
+    }
+  }
+
+  // ---------- 插入图片 ----------
+  async function uploadImage(file) {
+    const name = prompt('图片文件名（放在 /wiki-images/ 下）', file.name);
+    if (!name) return;
+    setStatus('上传图片…');
+    try {
+      const buf = new Uint8Array(await file.arrayBuffer());
+      let bin = '';
+      const CH = 0x8000;
+      for (let i = 0; i < buf.length; i += CH) bin += String.fromCharCode.apply(null, buf.subarray(i, i + CH));
+      const b64 = btoa(bin);
+      const path = IMG_DIR + name;
+      // 已存在就带上 sha 覆盖
+      let sha;
+      try {
+        const ex = await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(path)}?ref=${BRANCH}`);
+        sha = ex.sha;
+      } catch { /* 新文件 */ }
+      await api(`/repos/${OWNER}/${REPO}/contents/${encodeURI(path)}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: `上传资料站图片：${name}`,
+          content: b64, branch: BRANCH, ...(sha ? { sha } : {}),
+        }),
+      });
+      insertAtCursor(`\n<img src="/wiki-images/${name}" alt="${name}">\n`);
+      setStatus('图片已上传', 'ok');
+      setResult(`✓ 图片已上传：/wiki-images/${name}`);
+    } catch (e) {
+      setStatus('图片上传失败：' + e.message, 'err');
+    }
+  }
+
+  function insertAtCursor(text) {
+    const start = mdEl.selectionStart, end = mdEl.selectionEnd;
+    mdEl.value = mdEl.value.slice(0, start) + text + mdEl.value.slice(end);
+    mdEl.selectionStart = mdEl.selectionEnd = start + text.length;
+    mdEl.focus(); render(); markDirty();
+  }
+
+  // ---------- 事件 ----------
+  $('connect').onclick = () => { token = $('token').value.trim(); connect(); };
+  $('forget').onclick = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    token = ''; $('token').value = '';
+    files = []; current = null; mdEl.value = ''; original = '';
+    drawList(); setStatus('已清除本机 token', '');
+  };
+  $('filter').oninput = drawList;
+  $('save').onclick = save;
+  $('new').onclick = createFile;
+  $('remove').onclick = removeFile;
+  $('revert').onclick = () => {
+    if (confirm('放弃未保存的修改？')) { mdEl.value = original; render(); markDirty(); }
+  };
+  $('toggle').onclick = () => {
+    const single = $('panes').classList.toggle('single');
+    $('toggle').textContent = single ? '显示预览' : '只看编辑';
+    render();
+  };
+  $('upload').onclick = () => $('file').click();
+  $('file').onchange = (e) => { if (e.target.files[0]) uploadImage(e.target.files[0]); e.target.value = ''; };
+  mdEl.addEventListener('input', () => { render(); markDirty(); });
+  mdEl.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); }
+    if (e.key === 'Tab') {                      // Tab 插入两个空格而不是跳走
+      e.preventDefault();
+      insertAtCursor('  ');
+    }
+  });
+  window.addEventListener('beforeunload', (e) => {
+    if (mdEl.value !== original) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  // ---------- 启动 ----------
+  if (token) { $('token').value = token; connect(true); }
+</script>
+</body>
+</html>
