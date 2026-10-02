@@ -1,0 +1,52 @@
+name: 同步英文版
+
+# 中文内容一改，就在 GitHub 的机器上增量翻译英文版并提交回来。
+# 只翻改动的行，已有的译文原样保留（见 tools/sync_en.py 的说明）。
+on:
+  push:
+    branches: [main]
+    paths:
+      # 只有中文内容变了才触发；英文目录不在列表里，
+      # 所以机器人提交英文时不会再触发自己，不会死循环
+      - 'src/content/docs/wiki/**'
+      - 'src/content/blog/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-en
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # 机器人自己的提交不再触发（双保险）
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 增量同步英文
+        # 纯标准库，不需要装依赖。
+        # 脚本内部先试 Google 免密钥接口，失败自动退到 MyMemory；
+        # 两个都不通就报错退出，不会写入半截内容。
+        run: python tools/sync_en.py
+
+      - name: 提交并推送
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "英文无需更新"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "英文版自动同步（中文内容有更新）"
+          git push

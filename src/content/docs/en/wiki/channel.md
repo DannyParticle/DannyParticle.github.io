@@ -298,6 +298,7 @@ Videos are collapsed by year; click a year to expand. The current year is not co
 | August 24, 2026 | [【微恐预警】16人格规则怪谈 下 《出不去的直播间》](https://www.bilibili.com/video/BV1AMhN6wExz/) | 16 Types Werewolf! | The script for this rules-based horror story was already written before the first half was released, so a huge number of viewers in the first half's comments pieced together the completely correct plot of the second half! Everyone is a Sherlock Holmes! |
 | August 31, 2026 | [16人格开学第一天!](https://www.bilibili.com/video/BV1XNtb6zEPF/) | Personality Observation Room | School's back, hehe! |
 | September 19, 2026 | [怕虫慎入！16人格遇到蟑螂的表现啊啊啊↗↘↗↘](https://www.bilibili.com/video/BV1Tteb6jEHZ/) | Personality Observation Room | Cockroaches aaaaaah! |
+| October 2, 2026 |  [16人格测八维的表现（哦对的对的噢不对不对...](https://www.bilibili.com/video/BV1Pgam69E4F/)  | Personality Observation Room | This issue was hoarded half a year ago. Due to scheduling reasons, it has not been sent before. Now reset the concurrency |
 
 
 <div class="video-group"><a href="/wiki/works/buqi/">Buqi (不器)</a></div>
