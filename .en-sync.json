@@ -2,7 +2,8 @@
  "cache": {
   "| 2026年10月2日 | {0} | 人格观察室 | 这期是半年前囤的稿，由于排期原因之前一直没发，现在重置了一下并发之 |": "| October 2, 2026 | {0} | Personality Observation Room | This issue was hoarded half a year ago. Due to scheduling reasons, it has not been sent before. Now reset the concurrency |",
   "| 2026年10月2日 | ⟦0⟧ | 人格观察室 | 这期是半年前囤的稿，由于排期原因之前一直没发，现在重置了一下并发之 |": "| October 2, 2026 | ⟦0 | Personality Observation Room⟧ | This issue was hoarded half a year ago. Due to scheduling reasons, it has not been sent before, and now it has been reset concurrently |",
-  "| 2026年3月20日 | ⟦0⟧ | 人格观察室 | 这是一条用于测试自动同步的备注 |": "| 20 March 2026 | ⟦0⟧ | Personality Observation Room | This is a note for testing automatic synchronization |"
+  "| 2026年3月20日 | ⟦0⟧ | 人格观察室 | 这是一条用于测试自动同步的备注 |": "| 20 March 2026 | ⟦0⟧ | Personality Observation Room | This is a note for testing automatic synchronization |",
+  "本资料站提供{0}，内容由中文版自动同步翻译。": "This information site provides {0}, and the content is automatically translated from the Chinese version."
  },
  "files": {
   "src/content/blog/build-a-blog.md": {
@@ -118,8 +119,9 @@
   },
   "src/content/docs/wiki/index.md": {
    "en": "src/content/docs/en/wiki/index.md",
-   "hash": "4dda096af45bfeafa7fdb5ced26e724232706851",
-   "zh": "---\ntitle: \"首页\"\n---\n本页原为重定向页，指向 [王维诗里的MBTI Wiki](/wiki/about/)。\n"
+   "en_text": "---\ntitle: \"Home\"\n---\nThis page was originally a redirect to the [MBTI in Wang Wei's Poems Wiki](/wiki/about/).\n\nThis information site provides [英文版](/en/wiki/), and the content is automatically translated from the Chinese version.\n",
+   "hash": "1fd977125a990735012beb67b603dbcd0fe2dbd3",
+   "zh": "---\ntitle: \"首页\"\n---\n本页原为重定向页，指向 [王维诗里的MBTI Wiki](/wiki/about/)。\n\n本资料站提供[英文版](/en/wiki/)，内容由中文版自动同步翻译。\n"
   },
   "src/content/docs/wiki/pairings.md": {
    "en": "src/content/docs/en/wiki/pairings.md",
