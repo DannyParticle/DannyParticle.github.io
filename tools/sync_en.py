@@ -83,6 +83,17 @@ def _mymemory(texts: list[str]) -> list[str]:
     return out
 
 
+# 兜底用的严格保护表：把整个 Markdown 链接当一块，链接文字就不翻了，
+# 但结构绝对不会坏。只有在宽松模式校验不过时才用。
+STRICT_PATTERNS = [
+    re.compile(r"<[^>]+>"),
+    re.compile(r"!?\[[^\]]*\]\([^)]+\)"),
+    re.compile(r"https?://\S+"),
+    re.compile(r"`[^`]+`"),
+    re.compile(r"\*\*[^*]+\*\*"),
+    re.compile(r"\*[^*]+\*"),
+]
+
 PROVIDERS = [("google", _google), ("mymemory", _mymemory)]
 FULL_MARK = "，整篇重翻"
 
@@ -110,16 +121,20 @@ def translate(texts: list[str], cache: dict[str, str]) -> tuple[list[str], str]:
 # ---------------------------------------------------------------- 占位符保护
 
 PROTECT_PATTERNS = [
-    re.compile(r"<[^>]+>"),                    # HTML 标签
-    re.compile(r"!?\[[^\]]*\]\([^)]+\)"),      # Markdown 链接 / 图片
-    re.compile(r"https?://\S+"),               # 裸 URL
-    re.compile(r"`[^`]+`"),                    # 行内代码
-    re.compile(r"\*\*[^*]+\*\*"),              # 加粗
-    re.compile(r"\*[^*]+\*"),                  # 斜体
+    re.compile(r"<[^>]+>"),                          # HTML 标签
+    # 图片整块保护：alt 大多就是文件名，翻了反而错
+    re.compile(r"!\[[^\]]*\]\([^)]+\)"),
+    # 普通链接只保护 ](地址)，链接文字留给翻译 ——
+    # 否则英文版里会冒出「[英文版](/en/wiki/)」这种中英混排
+    re.compile(r"\]\([^)]+\)"),
+    re.compile(r"https?://\S+"),                     # 裸 URL
+    re.compile(r"`[^`]+`"),                          # 行内代码
+    re.compile(r"\*\*[^*]+\*\*"),                    # 加粗
+    re.compile(r"\*[^*]+\*"),                        # 斜体
 ]
 
 
-def protect(line: str) -> tuple[str, list[str]]:
+def protect(line: str, patterns=None) -> tuple[str, list[str]]:
     saved: list[str] = []
 
     def stash(m: re.Match) -> str:
@@ -128,7 +143,7 @@ def protect(line: str) -> tuple[str, list[str]]:
         return "{" + str(len(saved) - 1) + "}"
 
     out = line
-    for pat in PROTECT_PATTERNS:
+    for pat in (patterns or PROTECT_PATTERNS):
         out = pat.sub(stash, out)
     return out, saved
 
@@ -141,7 +156,7 @@ def restore(text: str, saved: list[str]) -> str:
     return re.sub(r"\{\s*(\d+)\s*\}", put, text)
 
 
-def prepare(line: str) -> str:
+def prepare(line: str, strict: bool = False) -> str:
     """把一行变成「可送翻文本 + 保护内容」。"""
     body = line
     title = None
@@ -151,7 +166,7 @@ def prepare(line: str) -> str:
             title = cells[2]
             cells[2] = " {T} "
             body = "|".join(cells)
-    protected, saved = protect(body)
+    protected, saved = protect(body, STRICT_PATTERNS if strict else None)
     if title is not None:
         saved.append(title)
         protected = protected.replace("{T}", "{" + str(len(saved) - 1) + "}")
@@ -209,8 +224,22 @@ def translate_block(new_lines: list[str], cache: dict) -> tuple[list[str], int]:
 
     if payloads:
         results, used = translate([p.split("\x01", 1)[0] for p in payloads], cache)
-        for slot, res, p in zip(slots, results, payloads):
+        retry: list[int] = []
+        for k, (slot, res, p) in enumerate(zip(slots, results, payloads)):
             out[slot] = finish(p, res)
+            # 括号结构对不上就说明接口把链接拆坏了，退回严格模式重来
+            src_line = new_lines[slot]
+            if (out[slot].count("[") != src_line.count("[")
+                    or out[slot].count("]") != src_line.count("]")):
+                retry.append(k)
+        if retry:
+            print(f"    {len(retry)} 行链接结构被拆坏，用严格模式重试")
+            strict_payloads = [prepare(new_lines[slots[k]], strict=True) for k in retry]
+            # 注意：这里刻意用一个空缓存，否则会命中刚才那版坏结果
+            strict_results, _ = translate(
+                [p.split("\x01", 1)[0] for p in strict_payloads], {})
+            for k, p, res in zip(retry, strict_payloads, strict_results):
+                out[slots[k]] = finish(p, res)
         print(f"    用 {used} 翻译了 {len(payloads)} 行")
     return out, len(payloads)
 
