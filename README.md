@@ -85,6 +85,47 @@ Token 只存在浏览器 `localStorage`（键名 `dsh_wiki_token`），不会上
 > （列目录 → 新建 → 读回 → 改 → 删除，跑完自动清理）。
 > 底部还保留了 Starlight 的「在 GitHub 上编辑」链接，编辑器万一出问题可以兜底。
 
+## 字体
+
+四套中文字体，**全部完整、不做 unicode-range 分片**。分片虽然省流量，但只要新增
+内容里出现一个落在未覆盖区间的字，就会掉到后备字体，看起来像「缺字」——
+资料站会长草，这个风险不值得冒。
+
+| 字体 | 文件 | 许可 | 格式 |
+|---|---|---|---|
+| 霞鹜文楷 屏幕阅读版（默认） | `LXGWWenKaiScreen.woff2` | SIL OFL 1.1 | woff2 |
+| MiSans | `MiSansVF.ttf` | 小米自有许可 | TTF 原样 |
+| HarmonyOS Sans SC | `HarmonyOS_Sans_SC_Regular.ttf` | 华为自有许可 | TTF 原样 |
+| 思源宋体 Noto Serif SC | `NotoSerifSC-Regular.woff2` | SIL OFL 1.1 | woff2 |
+
+**为什么后两个是 TTF 而不是 woff2**：这两家的许可都明文写了「不得修改字体」。
+格式转换算不算修改有争议，所以干脆原样发布，一个字节都不动；OFL 的两套才转 woff2
+（体积约省一半）。华为的许可还要求「在软件中显著声明使用了 HarmonyOS Sans」，
+署名放在页脚。
+
+顶栏的「字」下拉切换字体，选择存在 `localStorage`，并在 `<head>` 里用一段内联脚本
+**在首屏渲染前**写进 `<html data-font>` —— 否则回访用户会先看到默认字体再跳一下。
+
+只有被选中的那一套会被下载（后备链里只写系统字体，绝不把另一套网络字体放进去，
+否则浏览器会为了补字形把第二套也下了）。
+
+重新生成字体：`python tools/build_fonts.py`（原文件同时在工作区的 `../fonts/` 留档）。
+
+## 多语言
+
+界面语言用 Starlight 内置的 i18n：简体中文在根路径，英文在 `/en/` 下。
+顶栏的语言选择器是**按页对应**的 —— 在 `/wiki/channel/` 上选 English 会去
+`/en/wiki/channel/`，这和 Fandom 的跨语言链接是同一个思路（每种语言一套独立内容，
+页面之间一一挂钩）。资料站的英文内容放在 `src/content/docs/en/wiki/`，
+博客英文放在 `src/content/blog-en/`。侧边栏标签用 Starlight 的 `translations` 字段。
+
+**繁简切换**走另一条路：不复制内容，而是在浏览器里用 `opencc-js` 做字形转换，
+所以是瞬时的、也不用维护两份。转换会跳过 `<script>` / `<style>` / `<code>` / `<pre>`，
+并且记下原始文本，切回简体可以完整还原。
+
+> 英文正文是机器翻译的产物。改中文内容后英文不会自动跟着变，
+> 需要重新翻一遍（可以让 AI 批量做）。
+
 ## 如何更新资料站内容
 
 ### 视频列表怎么维护

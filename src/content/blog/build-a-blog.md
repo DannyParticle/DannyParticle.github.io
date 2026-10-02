@@ -327,7 +327,7 @@ npm install lxgw-wenkai-screen-webfont
 ```js
 starlight({
   head: [
-    { tag: 'link', attrs: { rel: 'stylesheet', href: '/fonts/wenkai.css' } },
+    { tag: 'link', attrs: { rel: 'stylesheet', href: '/fonts/site-fonts.css' } },
   ],
 });
 ```

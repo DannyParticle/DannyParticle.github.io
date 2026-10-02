@@ -1,0 +1,158 @@
+---
+// 顶栏字体切换器 + 繁简切换
+// 字体：写 <html data-font="...">，CSS 变量 --site-font 跟着变（见 /fonts/site-fonts.css）
+// 繁简：把正文汉字做 简⇄繁 转换，用 opencc-js
+---
+
+<div class="site-switches">
+  <label class="site-switch" title="切换正文字体">
+    <span class="site-switch__icon" aria-hidden="true">字</span>
+    <select id="font-select" aria-label="字体">
+      <option value="wenkai">霞鹜文楷</option>
+      <option value="misans">MiSans</option>
+      <option value="harmonyos">HarmonyOS Sans</option>
+      <option value="noto-serif">思源宋体</option>
+    </select>
+  </label>
+
+  <label class="site-switch" title="简体 / 繁體 切换">
+    <span class="site-switch__icon" aria-hidden="true">繁</span>
+    <select id="script-select" aria-label="简繁">
+      <option value="zh-Hans">简体</option>
+      <option value="zh-Hant">繁體</option>
+    </select>
+  </label>
+</div>
+
+<script>
+  // ---------- 字体 ----------
+  const FONT_KEY = 'site-font';
+  const fontSelect = document.getElementById('font-select') as HTMLSelectElement | null;
+  const savedFont = localStorage.getItem(FONT_KEY);
+  const initialFont = savedFont && ['wenkai', 'misans', 'harmonyos', 'noto-serif'].includes(savedFont)
+    ? savedFont
+    : 'wenkai';
+  document.documentElement.dataset.font = initialFont;
+  if (fontSelect) {
+    fontSelect.value = initialFont;
+    fontSelect.addEventListener('change', () => {
+      const v = fontSelect.value;
+      document.documentElement.dataset.font = v;
+      localStorage.setItem(FONT_KEY, v);
+    });
+  }
+
+  // ---------- 繁简 ----------
+  // 只在浏览器里做字形转换，不动 URL、不动内容文件，切换是瞬时的。
+  const SCRIPT_KEY = 'site-script';
+  const scriptSelect = document.getElementById('script-select') as HTMLSelectElement | null;
+  const savedScript = localStorage.getItem(SCRIPT_KEY);
+  const initialScript = savedScript === 'zh-Hant' ? 'zh-Hant' : 'zh-Hans';
+  if (initialScript === 'zh-Hant') document.documentElement.dataset.script = 'zh-Hant';
+  if (scriptSelect) scriptSelect.value = initialScript;
+
+  // 记录原始文本，来回切换才不会越转越偏（繁→简→繁 会丢信息）
+  const original = new WeakMap<Text, string>();
+
+  async function applyScript(mode: string) {
+    const root = document.documentElement;
+    if (mode === 'zh-Hans') {
+      delete root.dataset.script;
+      // 还原
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      let n: Node | null;
+      while ((n = walker.nextNode())) {
+        const t = n as Text;
+        const o = original.get(t);
+        if (o !== undefined && t.nodeValue !== o) t.nodeValue = o;
+      }
+      return;
+    }
+
+    root.dataset.script = 'zh-Hant';
+    const { Converter } = await import('opencc-js');
+    const convert = Converter({ from: 'cn', to: 'tw' });
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const p = (node as Text).parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        const tag = p.tagName;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'CODE' || tag === 'PRE') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (p.closest('.site-switches')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    let n: Node | null;
+    while ((n = walker.nextNode())) {
+      const t = n as Text;
+      if (!/[\u4e00-\u9fff]/.test(t.nodeValue || '')) continue;
+      if (!original.has(t)) original.set(t, t.nodeValue || '');
+      const src = original.get(t)!;
+      const out = convert(src);
+      if (out !== t.nodeValue) t.nodeValue = out;
+    }
+  }
+
+  if (scriptSelect) {
+    scriptSelect.addEventListener('change', async () => {
+      const v = scriptSelect.value;
+      localStorage.setItem(SCRIPT_KEY, v);
+      await applyScript(v);
+    });
+  }
+  // 记住的选择在首屏生效（等 DOM 就绪，避免漏掉节点）
+  if (initialScript === 'zh-Hant') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => applyScript('zh-Hant'));
+    } else {
+      applyScript('zh-Hant');
+    }
+  }
+</script>
+
+<style>
+  .site-switches {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .site-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-2);
+  }
+
+  .site-switch__icon {
+    opacity: 0.75;
+  }
+
+  .site-switch select {
+    font-family: inherit;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-white);
+    background: var(--sl-color-black);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.35rem;
+    padding: 0.2rem 0.3rem;
+    cursor: pointer;
+  }
+
+  .site-switch select:hover {
+    border-color: var(--sl-color-accent);
+  }
+
+  /* 窄屏只留图标，避免顶栏挤爆 */
+  @media (max-width: 50rem) {
+    .site-switch__icon {
+      display: none;
+    }
+    .site-switch select {
+      max-width: 5.5rem;
+    }
+  }
+</style>

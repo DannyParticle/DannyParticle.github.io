@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+const posts = (await getCollection('blogEn', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'All posts',
+    description: 'Channel news, notes and tinkering logs',
+  }}
+>
+  <p class="blog-filter">
+    Categories: {categories.map((c, i) => (
+      <>
+        {i > 0 && ' · '}
+        <span>{c}</span>
+      </>
+    ))}
+  </p>
+
+  <ul class="blog-list">
+    {posts.map((p) => (
+      <li>
+        <a href={`/en/blog/${p.id}/`}>
+          <span class="blog-list__date">{fmt(p.data.date)}</span>
+          <span class="chip">{p.data.category}</span>
+          <strong>{p.data.title}</strong>
+          {p.data.excerpt && <em>{p.data.excerpt}</em>}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="blog-filter">
+    <a href="/blog/">← 中文博客</a>
+  </p>
+</StarlightPage>

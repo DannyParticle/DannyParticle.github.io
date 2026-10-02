@@ -36,10 +36,11 @@
 
 /* ---------- 2. 字体与正文排版 ---------- */
 :root {
-  /* 霞鹜文楷（屏幕阅读版），自托管在 /fonts；后面是回退字体 */
-  --sl-font: "LXGW WenKai Screen", "PingFang SC", "HarmonyOS Sans SC",
-    "Source Han Sans SC", "Noto Sans SC", "Microsoft YaHei", system-ui,
-    -apple-system, sans-serif;
+  /* 字体由顶栏切换器决定：<html data-font="..."> 选中 --site-font。
+     具体 @font-face 与各选项见 /fonts/site-fonts.css。
+     注意后备链里只写系统字体 —— 不能把另一套网络字体放进来，
+     否则浏览器为了补字形会把第二套字体也下载了。 */
+  --sl-font: var(--site-font, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif);
   --sl-font-system: var(--sl-font);
   --sl-font-system-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
 }

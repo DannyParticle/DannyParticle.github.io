@@ -1,0 +1,81 @@
+/* ==========================================================================
+   站点中文字体 —— 四套可选，全部自托管，全部完整不分片
+   --------------------------------------------------------------------------
+   为什么不分片：unicode-range 分片虽然省流量，但只要新增内容里出现一个字
+   落在未覆盖区间，就会掉到后备字体，看起来像「缺字」。完整字体一次下完，
+   之后新增任何内容都一定有字形。
+
+   为什么格式不一样：
+     · 霞鹜文楷屏幕阅读版 / 思源宋体   SIL OFL 1.1 —— 允许修改，转成 woff2
+     · MiSans / HarmonyOS Sans         厂商许可明文「不得修改」
+                                       → 只做原样拷贝，用 TTF 直接发布
+
+   加载策略：四套字体各自独立命名，正文只引用当前选中的那一套（--site-font），
+   后备一律用系统字体，绝不把另一套网络字体写进后备链
+   —— 否则浏览器会为了补字形去下载第二套字体，白白多下十几 MB。
+   ========================================================================== */
+
+/* ---------- 1. 霞鹜文楷 屏幕阅读版（楷体，默认） ---------- */
+@font-face {
+  font-family: "LXGW WenKai Screen";
+  src: url("/fonts/LXGWWenKaiScreen.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 2. MiSans（小米，黑体，可变字重） ---------- */
+@font-face {
+  font-family: "MiSans";
+  src: url("/fonts/MiSansVF.ttf") format("truetype-variations"),
+       url("/fonts/MiSansVF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 3. HarmonyOS Sans SC（华为，黑体） ---------- */
+@font-face {
+  font-family: "HarmonyOS Sans SC";
+  src: url("/fonts/HarmonyOS_Sans_SC_Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 4. 思源宋体 Noto Serif SC（衬线，适合长文） ---------- */
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("/fonts/NotoSerifSC-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   选择逻辑：<html data-font="...">，由顶栏切换器写入，localStorage 记住
+   ========================================================================== */
+
+:root,
+:root[data-font="wenkai"] {
+  --site-font: "LXGW WenKai Screen", "PingFang SC", "Microsoft YaHei",
+    system-ui, sans-serif;
+}
+
+:root[data-font="misans"] {
+  --site-font: "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+:root[data-font="harmonyos"] {
+  --site-font: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei",
+    system-ui, sans-serif;
+}
+
+:root[data-font="noto-serif"] {
+  --site-font: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+}
+
+/* 思源宋体是衬线体，正文行距给宽一点更耐读 */
+:root[data-font="noto-serif"] {
+  --sl-line-height: 1.95;
+}
