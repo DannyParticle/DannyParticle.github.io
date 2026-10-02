@@ -705,6 +705,80 @@ body {
   width: 11rem;
 }
 
+/* ---------- 视频列表：分组标题 + 按年份折叠 ---------- */
+.video-group {
+  margin: 1.4rem 0 .6rem;
+  font-size: var(--sl-text-lg);
+  font-weight: 700;
+  color: var(--sl-color-white);
+  padding-left: .6rem;
+  border-left: 3px solid var(--sl-color-accent);
+}
+
+/* 年份折叠块 */
+.sl-markdown-content details {
+  margin: .5rem 0;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--site-radius-sm);
+  background: var(--sl-color-black);
+  overflow: hidden;
+}
+
+.sl-markdown-content details > summary {
+  cursor: pointer;
+  padding: .55rem .9rem;
+  font-weight: 600;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-1);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  user-select: none;
+}
+
+.sl-markdown-content details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 自己画一个三角，展开时旋转 */
+.sl-markdown-content details > summary::before {
+  content: "";
+  flex: none;
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform .15s ease;
+}
+
+.sl-markdown-content details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.sl-markdown-content details > summary:hover {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content details[open] > summary {
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+/* 折叠块里的表格：贴边铺满，去掉重复的外框 */
+.sl-markdown-content details > .sl-markdown-content,
+.sl-markdown-content details > table,
+.sl-markdown-content details > p {
+  margin: 0;
+}
+
+.sl-markdown-content details table {
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .sl-markdown-content table {
   box-shadow: var(--site-shadow);
 }
