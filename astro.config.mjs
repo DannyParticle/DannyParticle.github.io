@@ -18,7 +18,6 @@ export default defineConfig({
       defaultLocale: 'root',
       locales: {
         root: { label: '简体中文', lang: 'zh-CN' },
-        en: { label: 'English', lang: 'en' },
       },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/DannyParticle' },
@@ -42,6 +41,12 @@ export default defineConfig({
       //（分片虽然省流量，但新增内容一旦落在未覆盖区就会掉字体，看起来像缺字）
       head: [
         {
+          // 分片字体的 @font-face（霞鹜文楷 / 思源宋体，96 片 × 2）
+          tag: 'link',
+          attrs: { rel: 'stylesheet', href: '/fonts/sliced.css' },
+        },
+        {
+          // 整包字体（MiSans / HarmonyOS）与 --site-font 变量
           tag: 'link',
           attrs: { rel: 'stylesheet', href: '/fonts/site-fonts.css' },
         },

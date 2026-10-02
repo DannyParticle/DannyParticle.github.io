@@ -23,18 +23,4 @@ export const collections = {
     }),
   }),
 
-  // 英文博客：单独一个集合，渲染在 /en/blog/ 下。
-  // 资料站的英文内容不用单独建集合 —— Starlight 的 docs 集合按目录分语言
-  //（src/content/docs/wiki/ 是简体，src/content/docs/en/wiki/ 是英文）。
-  blogEn: defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog-en' }),
-    schema: z.object({
-      title: z.string(),
-      date: z.coerce.date(),
-      category: z.string().default('Notes'),
-      excerpt: z.string().optional(),
-      cover: z.string().optional(),
-      draft: z.boolean().default(false),
-    }),
-  }),
 };

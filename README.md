@@ -115,44 +115,52 @@ Token 只存在浏览器 `localStorage`（键名 `dsh_wiki_token`），不会上
 
 ## 字体
 
-四套中文字体，**全部完整、不做 unicode-range 分片**。分片虽然省流量，但只要新增
-内容里出现一个落在未覆盖区间的字，就会掉到后备字体，看起来像「缺字」——
-资料站会长草，这个风险不值得冒。
+四套中文字体，顶栏「字」下拉切换。**加载方式分两种，由许可决定**：
 
-| 字体 | 文件 | 许可 | 格式 |
+| 字体 | 许可 | 加载方式 | 体积 |
 |---|---|---|---|
-| 霞鹜文楷 屏幕阅读版（默认） | `LXGWWenKaiScreen.woff2` | SIL OFL 1.1 | woff2 |
-| MiSans | `MiSansVF.ttf` | 小米自有许可 | TTF 原样 |
-| HarmonyOS Sans SC | `HarmonyOS_Sans_SC_Regular.ttf` | 华为自有许可 | TTF 原样 |
-| 思源宋体 Noto Serif SC | `NotoSerifSC-Regular.woff2` | SIL OFL 1.1 | woff2 |
+| 霞鹜文楷 屏幕阅读版（默认） | SIL OFL 1.1 | unicode-range 分片 95 片 | 首屏约几百 KB |
+| 思源宋体 Noto Serif SC | SIL OFL 1.1 | unicode-range 分片 148 片 | 同上 |
+| MiSans | 小米许可（禁改） | 整包，选中才下 | 19.2 MB |
+| HarmonyOS Sans SC | 华为许可（禁改） | 整包，选中才下 | 7.9 MB |
 
-**为什么后两个是 TTF 而不是 woff2**：这两家的许可都明文写了「不得修改字体」。
-格式转换算不算修改有争议，所以干脆原样发布，一个字节都不动；OFL 的两套才转 woff2
-（体积约省一半）。华为的许可还要求「在软件中显著声明使用了 HarmonyOS Sans」，
-署名放在页脚。
+**为什么后两个不能分片**：两家的许可都明文写着「不得修改字体」，而分片本质就是
+裁掉用不到的字形。所以它们只能整包发布，下拉里标了体积，切换时也会提示。
 
-顶栏的「字」下拉切换字体，选择存在 `localStorage`，并在 `<head>` 里用一段内联脚本
-**在首屏渲染前**写进 `<html data-font>` —— 否则回访用户会先看到默认字体再跳一下。
+**分片是「划分」不是「取子集」。** 做法（`tools/slice_fonts.py`）：
 
-只有被选中的那一套会被下载（后备链里只写系统字体，绝不把另一套网络字体放进去，
-否则浏览器会为了补字形把第二套也下了）。
+1. 读出字体自己的 cmap —— 它到底有哪些字
+2. 把**站点内容里真正出现的字**按使用频次排在最前面几片（正常浏览只会下到 1～2 片）
+3. 其余所有字按码点均匀切分
 
-重新生成字体：`python tools/build_fonts.py`（原文件同时在工作区的 `../fonts/` 留档）。
+每片互不重叠、合起来等于字体的全部字符。`tools/check_font_coverage.py` 会实测
+这一点：把站点上每个字拿去查分片表，确认「字体里有的字」全都落在某个分片里。
+当前结果：霞鹜文楷 28872/28872、思源宋体 44743/44743，CJK 基本区零遗漏。
+
+> **踩过的坑**：一开始直接套用了 LXGW npm 包里的 unicode-range 表，但那套表是为
+> 它自带的子集字体设计的，只覆盖 14,492 个码点。套到 28,872 字的完整字体上，
+> 就有 8660 个汉字没被划进任何分片 —— 站点上的「淽」（于淽的名字）正是其一，
+> 会掉到系统字体。所以分片表必须按**字体自己的字符集**生成。
+
+重新生成：`python tools/slice_fonts.py`（耗时较长，可按 `--shard k n` 开几个进程分头切，
+再跑 `--css-only` 生成 CSS）。原文件在工作区 `../fonts/` 留档。
+
+顶栏切换器的选择存在 `localStorage`，并在 `<head>` 用一段内联脚本**在首屏渲染前**
+写进 `<html data-font>`，避免回访用户看到字体跳变。
 
 ## 多语言
 
-界面语言用 Starlight 内置的 i18n：简体中文在根路径，英文在 `/en/` 下。
-顶栏的语言选择器是**按页对应**的 —— 在 `/wiki/channel/` 上选 English 会去
-`/en/wiki/channel/`，这和 Fandom 的跨语言链接是同一个思路（每种语言一套独立内容，
-页面之间一一挂钩）。资料站的英文内容放在 `src/content/docs/en/wiki/`，
-博客英文放在 `src/content/blog-en/`。侧边栏标签用 Starlight 的 `translations` 字段。
+**英文版目前是屏蔽状态。** 机器翻译的成品读起来太生硬，先撤下来，
+内容保留在 	ranslations/ 下（wiki-en / blog-en），以后可以自己译一部分再放回去。
 
-**繁简切换**走另一条路：不复制内容，而是在浏览器里用 `opencc-js` 做字形转换，
-所以是瞬时的、也不用维护两份。转换会跳过 `<script>` / `<style>` / `<code>` / `<pre>`，
-并且记下原始文本，切回简体可以完整还原。
+重新启用需要三步：把 	ranslations/wiki-en 移回 src/content/docs/en/、
+	ranslations/blog-en 移回 src/content/blog-en/、恢复 stro.config.mjs 的 en 语言项
+与 src/content/content.config.ts 的 logEn 集合、恢复 src/pages/en/。
+自动同步工作流是 .github/workflows/sync-en.yml.disabled，改回 .yml 即可。
 
-> 英文正文是机器翻译的产物。改中文内容后英文不会自动跟着变，
-> 需要重新翻一遍（可以让 AI 批量做）。
+**繁简切换**是独立的：不复制内容，在浏览器里用 opencc-js 做字形转换，
+瞬时生效、也不用维护两份。转换会跳过 <script> / <style> / <code> / <pre>，
+并记录原文，切回简体可完整还原。
 
 ## 如何更新资料站内容
 

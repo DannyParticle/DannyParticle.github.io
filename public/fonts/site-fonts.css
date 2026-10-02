@@ -1,30 +1,24 @@
 /* ==========================================================================
-   站点中文字体 —— 四套可选，全部自托管，全部完整不分片
+   站点中文字体 —— 顶栏「字」下拉切换
    --------------------------------------------------------------------------
-   为什么不分片：unicode-range 分片虽然省流量，但只要新增内容里出现一个字
-   落在未覆盖区间，就会掉到后备字体，看起来像「缺字」。完整字体一次下完，
-   之后新增任何内容都一定有字形。
+   四套字体，两种加载方式：
 
-   为什么格式不一样：
-     · 霞鹜文楷屏幕阅读版 / 思源宋体   SIL OFL 1.1 —— 允许修改，转成 woff2
-     · MiSans / HarmonyOS Sans         厂商许可明文「不得修改」
-                                       → 只做原样拷贝，用 TTF 直接发布
+   ① 霞鹜文楷（默认）/ 思源宋体 —— SIL OFL 1.1，允许修改，所以切成
+      unicode-range 分片（@font-face 在 /fonts/sliced.css）。浏览器只下载
+      页面上真正用到的那几片，首屏通常几十 KB。
 
-   加载策略：四套字体各自独立命名，正文只引用当前选中的那一套（--site-font），
-   后备一律用系统字体，绝不把另一套网络字体写进后备链
-   —— 否则浏览器会为了补字形去下载第二套字体，白白多下十几 MB。
+      分片是完整字体的『划分』而不是取子集：所有字形都还在，只是分散在
+      不同文件里，新增内容不会缺字。
+
+   ② MiSans / HarmonyOS Sans —— 厂商许可明文「不得修改字体」，
+      分片属于修改，所以只能整包发布（19 MB / 8 MB）。
+      默认不加载，只有你主动选中时才下载；下拉里标了体积，切换时会提示。
+
+   后备链里只写系统字体 —— 不能把另一套网络字体放进来，
+   否则浏览器为了补字形会把第二套也下载了。
    ========================================================================== */
 
-/* ---------- 1. 霞鹜文楷 屏幕阅读版（楷体，默认） ---------- */
-@font-face {
-  font-family: "LXGW WenKai Screen";
-  src: url("/fonts/LXGWWenKaiScreen.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ---------- 2. MiSans（小米，黑体，可变字重） ---------- */
+/* ---------- MiSans（小米，黑体，可变字重） ---------- */
 @font-face {
   font-family: "MiSans";
   src: url("/fonts/MiSansVF.ttf") format("truetype-variations"),
@@ -34,19 +28,10 @@
   font-display: swap;
 }
 
-/* ---------- 3. HarmonyOS Sans SC（华为，黑体） ---------- */
+/* ---------- HarmonyOS Sans SC（华为，黑体） ---------- */
 @font-face {
   font-family: "HarmonyOS Sans SC";
   src: url("/fonts/HarmonyOS_Sans_SC_Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ---------- 4. 思源宋体 Noto Serif SC（衬线，适合长文） ---------- */
-@font-face {
-  font-family: "Noto Serif SC";
-  src: url("/fonts/NotoSerifSC-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -75,7 +60,32 @@
   --site-font: "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
 }
 
-/* 思源宋体是衬线体，正文行距给宽一点更耐读 */
+/* 宋体是衬线体，正文行距给宽一点更耐读 */
 :root[data-font="noto-serif"] {
   --sl-line-height: 1.95;
+}
+
+/* 整包字体首次切换要下大文件，给一次性提示 */
+:root[data-font="misans"] body::after,
+:root[data-font="harmonyos"] body::after {
+  content: "首次使用该字体需下载完整字体文件（MiSans 19MB / HarmonyOS 8MB），之后走浏览器缓存";
+  position: fixed;
+  left: 50%;
+  bottom: 1.2rem;
+  transform: translateX(-50%);
+  z-index: 999;
+  max-width: 90vw;
+  padding: 0.45rem 0.9rem;
+  border-radius: 2rem;
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-white);
+  background: var(--sl-color-gray-5);
+  box-shadow: var(--site-shadow);
+  pointer-events: none;
+  animation: font-hint 7s forwards;
+}
+
+@keyframes font-hint {
+  0%, 75% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
 }
