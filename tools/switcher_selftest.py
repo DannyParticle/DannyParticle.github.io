@@ -51,13 +51,9 @@ f.addEventListener('load', () => {
     const fontSel = $('#font-select'), scriptSel = $('#script-select');
     log(!!fontSel, '字体切换器存在');
     log(!!scriptSel, '繁简切换器存在');
+    // 英文版已屏蔽，只剩一种语言 —— 语言选择器**不应该**再出现
     const langSel = d.querySelector('starlight-lang-select select');
-    log(!!langSel, '语言选择器存在');
-    if (langSel) {
-      const pairs = [...langSel.options].map((o) => o.text + '=' + o.value);
-      log(pairs.some((p) => p.includes('/en/wiki/channel/')),
-          '按页对应：' + pairs.join(' | '));
-    }
+    log(!langSel, '单语言时不显示语言选择器（英文已屏蔽）');
 
     // ---- 2. 字体切换真的生效 ----
     if (fontSel) {
