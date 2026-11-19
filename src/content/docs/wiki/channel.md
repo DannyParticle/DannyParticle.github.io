@@ -1,13 +1,13 @@
 ---
 title: "王维诗里的MBTI"
 ---
-<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="/wiki-images/8b05e9d3328e510c4cdff905b82e7801.webp" alt="8b05e9d3328e510c4cdff905b82e7801.jpg" loading="lazy"></td></tr><tr><th>粉丝数</th><td>（截至2026年09月26日）<br>bilibili：82.4万<br>抖音：36.0万<br>小红书：42.5万<br>LOFTER：2.3万<br>微博：1.4万<br>YouTube：1.82万（youtube数据截至2026年8月27日因不可抗力因素后续可能暂停更新）</td></tr><tr><th>运营者</th><td>王元元、维基（均为化名）</td></tr><tr><th>所在地</th><td>浙江金华</td></tr><tr><th>宣传语</th><td>这可不是一般的MBTI，这是王维诗里的MBTI</td></tr><tr><th>首个视频</th><td>2022年12月31日</td></tr><tr><th>链接</th><td><a href="https://space.bilibili.com/3493079208168355/?spm_id_from=333.999.0.0">bilibili主页</a>；<a href="https://shop323497739.taobao.com/shop/view_shop.htm?spm=a1z0k.7386009.1997989141.3.545e37de5STvim&shop_id=323497739">淘宝店</a>；<a href="https://space.bilibili.com/3546747462748680/dynamic?spm_id_from=333.999.rich-text.at.click">工作室bilibili主页</a></td></tr></table>
+<table class="wiki-infobox"><colgroup><col class="wiki-col-label"><col class="wiki-col-value"></colgroup><tr><td class="wiki-infobox-figure" colspan="2"><img src="/wiki-images/8b05e9d3328e510c4cdff905b82e7801.webp" alt="8b05e9d3328e510c4cdff905b82e7801.jpg" loading="lazy"></td></tr><tr><th>粉丝数</th><td>（截至2026年11月19日）<br>bilibili：82.7万<br>抖音：36.1万<br>小红书：42.75万<br>LOFTER：2.3万<br>微博：1.4万<br>YouTube：1.9万（youtube数据截至2026年11月19日,因不可抗力因素后续可能暂停更新）</td></tr><tr><th>运营者</th><td>王元元、维基（均为化名）</td></tr><tr><th>所在地</th><td>浙江金华</td></tr><tr><th>宣传语</th><td>这可不是一般的MBTI，这是王维诗里的MBTI</td></tr><tr><th>首个视频</th><td>2022年12月31日</td></tr><tr><th>链接</th><td><a href="https://space.bilibili.com/3493079208168355/?spm_id_from=333.999.0.0">bilibili主页</a>；<a href="https://shop323497739.taobao.com/shop/view_shop.htm?spm=a1z0k.7386009.1997989141.3.545e37de5STvim&shop_id=323497739">淘宝店</a>；<a href="https://space.bilibili.com/3546747462748680/dynamic?spm_id_from=333.999.rich-text.at.click">工作室bilibili主页</a></td></tr></table>
 
 王维诗里的MBTI是bilibili（主要）、抖音、小红书、LOFTER、微博、YouTube等平台的一个以MBTI（Myers–Briggs Type Indicator，迈尔斯-布里格斯性格分类法）为主题，以[16personalities](https://www.16personalities.com/ch)网站上的16型人格形象为主角进行创作的频道，由[王元元](/wiki/people/wangyuanyuan/)、[维基](/wiki/people/viki/)（均为化名）运营，频道名称化用梗“王维诗里的xxxx”。工作邮箱：wangweishilidembti@qq.com。
 
-**News(updated 2026.8.27)：**
+**News(updated 2026.11.19)：**
 
-| 王维诗里的MBTI（官号）已经出现新的讲解形式，由二分转向八维，由于制作难度的增大，视频出品的时间增长，维基开始负责运营和统筹，**团队长期招新**<small>[（链接在此）](https://www.bilibili.com/opus/1204818736949755912)</small>。另外团队和trumeelab揪咪真我实验室联合出品测试，[链接在此](https://trumeelab.com/)。不器在缓慢制作中，全部做完才会一起端出来（更新形式未知）。暑期的活动月程表已经更新（抱歉未能及时更新）。 |
+| 王维诗里的MBTI（官号）已经出现新的讲解形式，由二分转向八维，由于制作难度的增大，视频出品的时间增长，维基开始负责运营和统筹，**团队长期招新**<small>[（链接在此）](https://www.bilibili.com/opus/1204818736949755912)</small>。另外团队和trumeelab揪咪真我实验室联合出品测试，[链接在此](https://trumeelab.com/)。不器在缓慢制作中，2026年11月20日第二季将会先行公开。|
 |---|
 
 这里有正在校验和优化的[荣格理论和荣格八维](/wiki/theory/jung-eight-functions/)的wiki
@@ -312,6 +312,7 @@ title: "王维诗里的MBTI"
 | 2024年11月15日 | 第四集 胡紫（（原创动画《不器》第三集 太太半夜坐起来给了自己两巴掌）） | 加入了op |
 | 2025年1月24日 | 原创动画《不器》第五集 汗流浃背了吧，莫竞！ |   |
 | 2025年6月27日 | 原创动画《不器》第六集 道长你这样我就要嬷你了 |   |
+| 2026年11月19日 | 【不器】第二季第一集预告，11月20日先行公开！ |   |
 
 </details>
 
